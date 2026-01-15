@@ -1,0 +1,20 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class ConfiguracionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        DB::table('settings')->insert(['key' => "precio_clasificados", 'value' => "15"]);
+        DB::table('settings')->insert(['key' => "precio_destacados", 'value' => "20"]);
+        DB::table('settings')->insert(['key' => "meses_plaz", 'value' => "2"]);
+    }
+}
