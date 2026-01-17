@@ -1,7 +1,7 @@
-# Sistema de Monitoreo y Alerta Temprana
+# Software para Gestión de Anuncios - Supercasas SRL
 ## Instalación
 
-Para crear la base de datos:
+Crear una base de datos y luego crear el esquema con el siguiente comando:
 ```
 php artisan migrate
 ```
@@ -21,6 +21,5 @@ php artisan serve
 Para ejecutar el sistema en red:
 En host, colocar la IP de la computadora.
 ```
-php artisan serve --host=192.168.1.5 --port=8000
+php artisan serve --host=0.0.0.0 --port=8000
 ```
-Luego, modificar en el sketch del ESP32 la variable serverName, para que se pueda conectar el circuito al sistema.
