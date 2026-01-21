@@ -4,11 +4,19 @@
 @section('contenido')
 
 <div class="col-md-10 content-pane">
-    <h3 class="title-header" style="text-transform: uppercase;">
-        <i class="fa fa-home"></i>
-        {{$titulo}}
-        <a href="{{url('clientes')}}" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-arrow-left"></i> ATRÁS</a>
-    </h3>
+    <div class="title-container">
+        <div class="row">
+            <div class="col-6">
+				<h3 class="title-header" style="text-transform: uppercase;">
+					<i class="fa fa-home"></i>
+					{{$titulo}}
+				</h3>
+			</div>
+            <div class="col-6">
+			</div>
+		</div>
+	</div>		
+
     <div class="row">
         <div class="col-12">
                 <!-- inicio card  -->
@@ -18,62 +26,62 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="title-dash col">
-                                    INFORMACIÓN VENTAS 
+                                    INFORMACIÓN ANUNCIOS CLASIFICADOS
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="box-result">
-                                            <h1>{{$ventas->count()}}</h1>
-                                            <small>VENTAS DEL DIA</small>
+                                            <h1>{{$anuncios_dia->count()}}</h1>
+                                            <small>ANUNCIOS DEL DIA</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="box-result">
-                                            <h1>{{$ventas->count()}}</h1>
-                                            <small>VENTAS DEL MES</small>
+                                            <h1>{{$anuncios_mes->count()}}</h1>
+                                            <small>ANUNCIOS DEL MES</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="box-result">
-                                            <h1>{{$ventas->count()}}</h1>
-                                            <small>DESPACHOS DIA</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="box-result">
-                                            <h1>{{$usuarios->count()}}</h1>
-                                            <small>CLIENTES NUEVOS</small>
+                                            <h1>{{$anuncios_anio->count()}}</h1>
+                                            <small>ANUNCIOS DEL AÑO</small>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
+                                <h6 class="text-info">ESTADO DE ANUNCIOS CLASIFICADOS</h6>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="box-result-numbers">
-                                            <h1>{{$total_ventas_dia}}</h1>
-                                            <small>VENTAS DEL DIA</small>
+                                            <h1>{{$anuncios_guardados->count()}}</h1>
+                                            <small>GUARDADOS</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="box-result-numbers">
-                                            <h1>{{$total_ventas_mes}}</h1>
-                                            <small>VENTAS DEL MES</small>
+                                            <h1>{{$anuncios_publicados->count()}}</h1>
+                                            <small>PUBLICADOS</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="box-result-numbers">
-                                            <h1>{{$total_ventas_anio}}</h1>
-                                            <small>VENTAS DEL AÑO (Bs)</small>
+                                            <h1>{{$anuncios_finalizados->count()}}</h1>
+                                            <small>FINALIZADOS</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box-result-numbers">
+                                            <h1>{{$anuncios_vencidos->count()}}</h1>
+                                            <small>VENCIDOS</small>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <hr>
-                                        <h3 class="text-primary"><i class="fa fa-signal"></i> Ventas por mes</h3>
-                                        <canvas id="chart_consumo_mensual"></canvas>
+                                        <h4 class="text-primary"><i class="fa fa-bar-chart"></i> Clasificados ultimos 6 meses</h4>
+                                        <canvas id="chart_clasificados_mensual"></canvas>
                                     </div>
                                 </div>
 
@@ -81,79 +89,73 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="title-dash col">
-                                    INFORMACIÓN ALMACEN
+                                    INFORMACIÓN ANUNCIOS PROPIOS
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="box-result">
-                                            <h1>{{$entradas}}</h1>
-                                            <small>INGRESOS DEL DIA</small>
+                                    <div class="col-md-4">
+                                        <div class="box-result-green">
+                                            <h1>{{$anuncios_dia_propio->count()}}</h1>
+                                            <small>ANUNCIOS DEL DIA</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="box-result">
-                                            <h1>{{$salidas}}</h1>
-                                            <small>SALIDAS DEL DIA</small>
+                                    <div class="col-md-4">
+                                        <div class="box-result-green">
+                                            <h1>{{$anuncios_mes_propio->count()}}</h1>
+                                            <small>ANUNCIOS DEL MES</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="box-result">
-                                            <h1>{{$proveedores->count()}}</h1>
-                                            <small>INGRESOS DEL MES</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="box-result">
-                                            <h1>{{$usuarios->count()}}</h1>
-                                            <small>SALIDAS DEL MES</small>
+                                    <div class="col-md-4">
+                                        <div class="box-result-green">
+                                            <h1>{{$anuncios_anio_propio->count()}}</h1>
+                                            <small>ANUNCIOS DEL AÑO</small>
                                         </div>
                                     </div>
                                 </div>
+
+                                <hr>
+                                <h6 class="text-success">ESTADO DE ANUNCIOS PROPIOS</h6>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="box-result-numbers-green">
+                                            <h1>{{$anuncios_guardados_propio->count()}}</h1>
+                                            <small>GUARDADOS</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box-result-numbers-green">
+                                            <h1>{{$anuncios_publicados_propio->count()}}</h1>
+                                            <small>PUBLICADOS</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box-result-numbers-green">
+                                            <h1>{{$anuncios_finalizados_propio->count()}}</h1>
+                                            <small>FINALIZADOS</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box-result-numbers-green">
+                                            <h1>{{$anuncios_vencidos_propio->count()}}</h1>
+                                            <small>VENCIDOS</small>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <hr>
-                                        <h3 class="text-primary"><i class="fa fa-signal"></i> Ingresos del mes</h3>
-                                        <canvas id="chart_inventario_mensual"></canvas>
+                                        <h4 class="text-primary"><i class="fa fa-bar-chart"></i> Propios ultimos 6 meses</h4>
+                                        <canvas id="chart_propios_mensual"></canvas>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                             
-                            <div class="row">
-                                <div class="col-md-6">
-                                {{-- <h3 class="text-primary"><i class="fa fa-signal"></i> Ventas por mes</h3>
-                                <canvas id="chart_consumo_mensual"></canvas> --}}
-                                <hr>
-                            </div>
-                            {{-- <div class="col-md-6">
-                                <h3 class="text-primary"><i class="fa fa-list"></i> Consumo mensual global</h3>
-                                <hr>
-                                @if($lecturas->count() == 0)
-                                <canvas id="chart_consumo_mensual"></canvas>
-                                <div class="alert alert-info">
-                                    <div class="media">
-                                        <img src="{{asset('img/alert-info.png')}}" class="align-self-center mr-3" alt="...">
-                                        <div class="media-body">
-                                            <h5 class="mt-0">Nota.-</h5>
-                                            <p>
-                                                Dispositivo sin conexión.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                @else
-
-                                @endif
-                            </div> --}}
-                        </div>
-
                     </div>
                 </div>
                 <!-- fin card  -->
-
-
 
         </div>
     </div>
@@ -181,92 +183,65 @@ $(function(){
 
 /*CHART CONFIGURACION EXAMPLE*/
  const labels1 = [
-     'Lunes',
-     'Martes',
-     'Miercoles',
-     'Jueves',
-     'Viernes',
-     'Sabado',
+    @foreach ($anuncios_ultimos_6_meses as $item)
+        '{{ $item["mes"] }}',
+    @endforeach
    ];
  const labels2 = [
-     'Junio',
-     'Julio',
-     'Agosto',
-     'Septiembre',
-     'Octubre',
-     'Noviembre',
+    @foreach ($propios_ultimos_6_meses as $item)
+        '{{ $item["mes"] }}',
+    @endforeach
    ];
- const data1 = {
-     labels: labels1,
-     datasets: [{
-       label: 'Consumo',
-       backgroundColor: 'rgb(134, 99, 132)',
-       borderColor: 'rgb(134, 99, 132)',
-       data: [0, 10, 15, 2, 20, 300, 45],
-     }]
-   };
-   const data2 = {
+   const dataClasificados = {
      labels: labels2,
      datasets: [{
-       label: 'Ventas por mes',
+       label: 'anuncios por mes',
        backgroundColor: 'rgb(5, 99, 132)',
        borderColor: 'rgb(5, 99, 132)',
-       data: [10, 15, 5, 12, 22, 30, 45],
+       data: [
+    @foreach ($anuncios_ultimos_6_meses as $item)
+        {{ $item["cantidad"] }},
+    @endforeach
+       ],
      }]
    };
-   const data3 = {
+   const dataPropios = {
      labels: labels2,
      datasets: [{
        label: 'Ingresos por mes',
        backgroundColor: 'rgb(255, 99, 132)',
        borderColor: 'rgb(255, 99, 132)',
-       data: [12, 6, 15, 2, 5, 21, 24],
+       data: [
+    @foreach ($propios_ultimos_6_meses as $item)
+        {{ $item["cantidad"] }},
+    @endforeach
+       ],
      }]
    };
 
-
-   const config_caudal = {
-     type: 'line',
-     data: data2,
-     options: {}
-   };
-   const config_diario = {
+   const config_clasificados = {
      type: 'bar',
-     data: data1,
+     data: dataClasificados,
      options: {}
    };
-   const config_mensual = {
+
+   const config_propios = {
      type: 'bar',
-     data: data2,
-     options: {}
-   };
-
-   const config_mensual_inventario = {
-     type: 'bar',
-     data: data3,
+     data: dataPropios,
      options: {}
    };
 
 
-// // const grafico_caudal = new Chart(
-// //     document.getElementById('chart_caudal'),
-// //     config_caudal
-// //   );
-
-    const grafico_consumo_mensual = new Chart(
-        document.getElementById('chart_consumo_mensual'),
-        config_mensual
+    const grafico_clasificados_mensual = new Chart(
+        document.getElementById('chart_clasificados_mensual'),
+        config_clasificados
       );
 
     const grafico_inventario_mensual = new Chart(
-        document.getElementById('chart_inventario_mensual'),
-        config_mensual_inventario
+        document.getElementById('chart_propios_mensual'),
+        config_propios
       );
 
-// const grafico_consumo_diario = new Chart(
-//     document.getElementById('chart_consumo_diario'),
-//     config_diario
-//   );
 
 </script>
 

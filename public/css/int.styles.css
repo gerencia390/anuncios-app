@@ -371,20 +371,39 @@ BOXES DASHBOARD
   color: #fff;
   border-radius: 5px;
 }
-.box-result h1{
-  font-size: 5.5rem;
+
+.box-result-green{
+  text-align:center;
+  background-color:#372;
+  color: #fff;
+  border-radius: 5px;
 }
-.box-result-numbers h1{
-  font-size: 2.5rem;
+
+.box-result h1, .box-result-green h1{
+  font-size: 4rem;
+  margin:0;
+}
+.box-result-numbers h1, .box-result-numbers-green h1{
+  font-size: 3rem;
+}
+.box-result-numbers small, .box-result-numbers-green small{
+  font-size: 12px;
+  line-height: 8px !important;
 }
 
 .box-result-numbers{
   text-align:center;
   background-color:#379;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 5px;  
 }
 
+.box-result-numbers-green{
+  text-align:center;
+  background-color:#5b5;
+  color: #fff;
+  border-radius: 5px;  
+}
 
 canvas{
   height: 300px !important;

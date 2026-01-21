@@ -116,9 +116,9 @@
                         @if (Auth::user()->usu_rol == 1)
                         <a class="nav-item nav-link @if($modulo_activo == 'usuarios'): active @endif" href="{{url('usuarios')}}"><i class="fa fa-users"></i> USUARIOS</a>
                         @endif
-                        @if (Auth::user()->usu_rol == 1 || Auth::user()->usu_rol == 3)
+                        {{-- @if (Auth::user()->usu_rol == 1 || Auth::user()->usu_rol == 3)
                         <a class="nav-item nav-link @if($modulo_activo == 'reportes'): active @endif" href="{{url('reportes')}}"><i class="fa fa-line-chart"></i> REPORTES</a>
-                        @endif
+                        @endif --}}
                         @if (Auth::user()->usu_rol == 1)
                         <a class="nav-item nav-link @if($modulo_activo == 'alertas'): active @endif" href="{{url('configuracion')}}"><i class="fa fa-cogs"></i> CONFIGURACION</a>
                         @endif
