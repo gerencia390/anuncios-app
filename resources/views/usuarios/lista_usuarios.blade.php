@@ -4,11 +4,20 @@
 @section('contenido')
 
 <div class="col-md-10 content-pane">
-    <h3 class="title-header" style="text-transform: uppercase;">
-        <i class="fa fa-users"></i>
-        {{$titulo}}
-        <a href="{{url('usuarios/nuevo')}}" class="btn btn-sm btn-success float-right" style="margin-left:10px;"><i class="fa fa-plus"></i> NUEVO USUARIO</a>
-    </h3>
+    <div class="title-container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="title-header" style="text-transform: uppercase;">
+                    <i class="fa fa-users"></i>
+                    {{$titulo}}
+                </h3>
+            </div>
+            <div class="col-6">
+                    <a href="{{url('usuarios/nuevo')}}" class="btn btn-sm btn-success float-right" style="margin-left:10px;"><i class="fa fa-plus"></i> NUEVO USUARIO</a>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
               
@@ -28,6 +37,7 @@
                             </div>
                         </div>
                         @else
+                        <div class="table-responsive">
                         <table class="table table-bordered tabla-datos-clientes">
                             <thead>
                             <tr>
@@ -55,12 +65,9 @@
                                         ADMINISTRADOR DEL SISTEMA
                                     @endif
                                     @if($item->usu_rol == 2)
-                                        ENCARGADO DE VENTAS
+                                        PUBLICADOR
                                     @endif
                                     @if($item->usu_rol == 3)
-                                        ENCARGADO DE ALMACEN
-                                    @endif
-                                    @if($item->usu_rol == 4)
                                         GERENCIA
                                     @endif
                                 </td>
@@ -81,6 +88,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                         @endif
                     </div>
                 </div>

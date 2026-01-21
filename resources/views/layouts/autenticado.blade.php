@@ -35,7 +35,7 @@
 <body>
 
     {{-- TOP MENÚ (INICIO) --}}
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-top-menu">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-top-menu">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -51,7 +51,7 @@
                         </li>
                     </ul>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user"></i>
                             Cuenta de usuario
                         </button>
@@ -66,8 +66,12 @@
                                         <small class="text-uppercase text-info" style="font-size:0.6em;">
                                             @if (Auth::user()->usu_rol == 1)
                                             ADMINISTRADOR DE SISTEMA
-                                            @else
-                                            PUBLICADOR    
+                                            @endif
+                                            @if (Auth::user()->usu_rol == 2)
+                                            PUBLICADOR
+                                            @endif
+                                            @if (Auth::user()->usu_rol == 3)
+                                            GERENCIA
                                             @endif
                                         </small>
                                     </h4>
@@ -86,23 +90,38 @@
     {{-- TOP MENÚ (FIN) --}}
 
     {{-- CONTENEDOR PRINCIPAL (INICIO) --}}
-    <div class="row page-content"">
+    <div class="row page-content">
         {{-- MENU CONTEXTUAL --}}
-        <div class="col-md-2 nav-contextual-container">
+            <button class="fab-menu d-md-none"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#menuContextual"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+        <div class="col-md-2 nav-contextual-container collapse d-md-block" id="menuContextual">
             <div class="nav-contextual">
                     <nav class="nav nav-pills" aria-orientation="vertical">
                         <a class="nav-item nav-link @if($modulo_activo == 'dashboard'): active @endif" href="{{url('dashboard')}}"><i class="fa fa-home"></i> PANEL GENERAL</a>
-                        @if (true)
-                        {{-- @if (Auth::user()->usu_rol == 1) --}}
-                        <a class="nav-item nav-link @if($modulo_activo == 'anuncios_clientes'): active @endif" href="{{url('ventas')}}"><i class="fa fa-volume-up"></i> ANUNCIOS CLIENTES</a>
-                        <a class="nav-item nav-link @if($modulo_activo == 'anuncios_propio'): active @endif" href="{{url('ventas')}}"><i class="fa fa-suitcase"></i> ANUNCIOS PROPIOS</a>
+                        @if (Auth::user()->usu_rol == 1 || Auth::user()->usu_rol == 2 || Auth::user()->usu_rol == 3)
+                        <a class="nav-item nav-link @if($modulo_activo == 'anuncios_clientes'): active @endif" href="{{url('anuncios')}}"><i class="fa fa-volume-up"></i> ANUNCIOS CLIENTES</a>
+                        @endif
+                        @if (Auth::user()->usu_rol == 1 || Auth::user()->usu_rol == 3)
+                        <a class="nav-item nav-link @if($modulo_activo == 'anuncios_propios'): active @endif" href="{{url('anuncios_propios')}}"><i class="fa fa-suitcase"></i> ANUNCIOS PROPIOS</a>
                         @endif
                         <h6 class="text-center text-white" style="text-transform: uppercase;">
                             <small>- ADMINISTRACIÓN-</small>
                         </h6>                        
+                        @if (Auth::user()->usu_rol == 1)
                         <a class="nav-item nav-link @if($modulo_activo == 'usuarios'): active @endif" href="{{url('usuarios')}}"><i class="fa fa-users"></i> USUARIOS</a>
+                        @endif
+                        @if (Auth::user()->usu_rol == 1 || Auth::user()->usu_rol == 3)
                         <a class="nav-item nav-link @if($modulo_activo == 'reportes'): active @endif" href="{{url('reportes')}}"><i class="fa fa-line-chart"></i> REPORTES</a>
+                        @endif
+                        @if (Auth::user()->usu_rol == 1)
                         <a class="nav-item nav-link @if($modulo_activo == 'alertas'): active @endif" href="{{url('configuracion')}}"><i class="fa fa-cogs"></i> CONFIGURACION</a>
+                        @endif
                     </nav>
     
                 <div class="box-copyright">

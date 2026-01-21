@@ -7,6 +7,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnuncioController;
+use App\Http\Controllers\AnuncioPropioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,11 +52,20 @@ Route::resource('/dashboard', DashboardController::class);
 
 /*
 ----------------------------------------
-* RUTAS: ANUNCIOS
+* RUTAS: ANUNCIOS CLASIFICADOS - DESTACADOS
 ----------------------------------------
 */
 Route::get('/anuncios/letrero1', [AnuncioController::class ,'letrero1']);
+Route::post('/anuncios/finalizar/{anu_id}', [AnuncioController::class ,'finalizar']);
 Route::resource('/anuncios', AnuncioController::class);
+
+/*
+----------------------------------------
+* RUTAS: ANUNCIOS PROPIOS
+----------------------------------------
+*/
+Route::post('/anuncios_propios/finalizar/{anu_id}', [AnuncioPropioController::class ,'finalizar']);
+Route::resource('/anuncios_propios', AnuncioPropioController::class);
 /*
 ----------------------------------------
 * RUTAS: USUARIOS

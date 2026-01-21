@@ -9,12 +9,13 @@ return new class extends Migration {
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->Increments('usu_id');
-            $table->tinyInteger('usu_rol'); // 1 = admin, 2 = publicador
+            $table->tinyInteger('usu_rol'); // 1 = admin, 2 = publicador, 3=gerencia
             $table->string('usu_nombre')->unique();
             $table->string('password');
             $table->string('usu_nombre_completo');
             $table->boolean('usu_estado')->default(1); // 1 activo, 0 inactivo
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

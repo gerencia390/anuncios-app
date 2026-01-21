@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->integer('usu_id')->unsigned()->default(1); // usuario que creó el anuncio
 
             // Código correlativo
-            $table->string('anu_codigo_anuncio')->unique(); 
+            $table->string('anu_codigo_anuncio')->unique();
 
             // Contenido
             $table->string('anu_concepto');                       //concepto
@@ -36,7 +36,7 @@ return new class extends Migration {
             $table->float('anu_monto_pago')->nullable();      //DIRECCIÓN
             $table->string('anu_nro_factura')->nullable();     //NRO DE RECIBO
             // Estado
-            $table->integer('anu_estado')->default(0);// 0=guardado, 1=publicado, 2=finalizado
+            $table->integer('anu_estado')->default(0);// 0=guardado, 1=publicado, 2=finalizado, 3=vencido
 
             // Laravel timestamps
             $table->timestamps();
@@ -44,7 +44,7 @@ return new class extends Migration {
             $table->foreign('tip_id')->references('tip_id')->on('tipos');
             $table->foreign('cat_id')->references('cat_id')->on('categorias');
             $table->foreign('usu_id')->references('usu_id')->on('usuarios');
-
+            $table->softDeletes();
         });
     }
 

@@ -8,12 +8,12 @@
         <div class="row">
             <div class="col-6">
             <h3 class="title-header" style="text-transform: uppercase;">
-                <i class="fa fa-volume-up"></i>
+                <i class="fa fa-suitcase"></i>
                 {{$titulo}}
             </h3>
             </div>        
             <div class="col-6">
-                <a href="{{url('anuncios/nuevo')}}" class="btn btn-sm btn-success float-right" style="margin-left:10px;"><i class="fa fa-plus"></i> NUEVO ANUNCIO</a>
+                <a href="{{url('anuncios_propios/nuevo')}}" class="btn btn-sm btn-success float-right" style="margin-left:10px;"><i class="fa fa-plus"></i> NUEVO ANUNCIO PROPIO</a>
                 <a data-toggle="modal" data-target="#modal-depurar-anuncios" href="#" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-refresh"></i> DEPURAR ANUNCIOS</a>
             </div>        
         </div>
@@ -122,6 +122,7 @@
                                                 data-monto="Bs.- {{$item->anu_monto_pago}}" 
                                                 data-factura="{{$item->anu_nro_factura}}" 
                                                 data-estado="{{$item->anu_estado}}" 
+                                                data-imagen_url="{{$item->anu_imagen_url}}" 
                                                 data-toggle="modal" 
                                                 data-target="#modal-ver-detalle" 
                                                 href="#">
@@ -129,7 +130,7 @@
                                                 Ver detalle
                                         </a>
                                         <a class="dropdown-item btn-finalizar-anuncio" data-anuId="{{Crypt::encryptString($item->anu_id)}}" data-codAnuncio="{{$item->anu_codigo_anuncio}}" data-toggle="modal" data-target="#modal-finalizar-anuncio" href="#"><i class="fa fa-paper-plane"></i> Finalizar anuncio</a>
-                                        <a class="dropdown-item" href="{{url('anuncios/'.Crypt::encryptString($item->anu_id).'/editar')}}"><i class="fa fa-edit"></i> Editar anuncio</a>
+                                        <a class="dropdown-item" href="{{url('anuncios_propios/'.Crypt::encryptString($item->anu_id).'/editar')}}"><i class="fa fa-edit"></i> Editar anuncio</a>
                                         <a class="dropdown-item btn-eliminar-anuncio" data-anuId="{{Crypt::encryptString($item->anu_id)}}" data-codAnuncio="{{$item->anu_codigo_anuncio}}" data-toggle="modal" data-target="#modal-eliminar-anuncio" href="#"><i class="fa fa-trash"></i> Eliminar anuncio</a>
                                       </div>
                                     </div>
@@ -192,7 +193,7 @@
 
 {{-- INICIO MODAL: VER DETALLE ANUNCIO --}}
 <div class="modal fade" id="modal-ver-detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background-color:#eee;">
           <h5 class="modal-title text-primary">
@@ -204,90 +205,50 @@
           </button>
         </div>
         <div class="modal-body">
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">TIPO:</div>
-                        <div id="txt-tipo"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">CATEGORIA:</div>
-                        <div id="txt-categoria"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="col-12 box-detalle-modal text-center">
+                        <img id="img-detalle" src="" style="width: 100%">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">PUBLICADOR:</div>
-                        <div id="txt-publicador"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">CODIGO:</div>
-                        <div id="txt-codigo"></div>
-                    </div>
-                </div>
-                <div class="box-data-xtra">
-                    <div class="row">
-                        <div class="col-12 box-detalle-modal">
-                            <div class="text-success">CONCEPTO:</div>
-                            <div id="txt-concepto"></div>
+                <div class="col-6">
+                    <div class="box-data-xtra">
+                        <div class="row">
+                            <div class="col-12 box-detalle-modal">
+                                <div class="text-success">CONCEPTO:</div>
+                                <div id="txt-concepto"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 box-detalle-modal">
+                                <div class="text-success">DESCRIPCION:</div>
+                                <div id="txt-descripcion"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 box-detalle-modal">
-                            <div class="text-success">DESCRIPCION:</div>
-                            <div id="txt-descripcion"></div>
+                        <div class="col-6 box-detalle-modal">
+                            <div class="text-success">FECHA INICIO:</div>
+                            <div id="txt-inicio"></div>
+                        </div>
+                        <div class="col-6 box-detalle-modal">
+                            <div class="text-success">FECHA VENCIMIENTO:</div>
+                            <div id="txt-fin"></div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6 box-detalle-modal">
+                            <div class="text-success">TELEFONOS ASESOR:</div>
+                            <div id="txt-telefonos"></div>
+                        </div>
+                        <div class="col-6 box-detalle-modal">
+                            <div class="text-success">ESTADO:</div>
+                            <div id="txt-estado"></div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">FECHA INICIO:</div>
-                        <div id="txt-inicio"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">FECHA VENCIMIENTO:</div>
-                        <div id="txt-fin"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">CLIENTE:</div>
-                        <div id="txt-cliente"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">NIT/CI:</div>
-                        <div id="txt-nit"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">UBICACION:</div>
-                        <div id="txt-ubicacion"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">PRECIO/SUELDO:</div>
-                        <div id="txt-precio"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">TELEFONOS:</div>
-                        <div id="txt-telefonos"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">MONTO PAGADO:</div>
-                        <div id="txt-monto"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">NRO FACTURA:</div>
-                        <div id="txt-factura"></div>
-                    </div>
-                    <div class="col-6 box-detalle-modal">
-                        <div class="text-success">ESTADO:</div>
-                        <div id="txt-estado"></div>
-                    </div>
-                </div>
+            </div>
 
         </div>
         <div class="modal-footer">
@@ -296,7 +257,7 @@
       </div>
     </div>
   </div>
-  {{-- FIN MODAL: ELIMINAR ESTADO --}}
+  {{-- FIN MODAL: VER DETALLE ANUNCIO --}}
 
 {{-- INICIO MODAL: ELIMINAR ANUNCIO --}}
 <div class="modal fade" id="modal-finalizar-anuncio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -332,7 +293,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-finalizar-anuncio" action="{{url('anuncios')}}" data-simple-action="{{url('anuncios/finalizar')}}" method="post">
+          <form id="form-finalizar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios/finalizar')}}" method="post">
             @method('post')
             @csrf
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Si, finalizar</button>
@@ -377,7 +338,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-eliminar-anuncio" action="{{url('anuncios')}}" data-simple-action="{{url('anuncios')}}" method="post">
+          <form id="form-eliminar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios')}}" method="post">
             @method('delete')
             @csrf
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Si, eliminar</button>
@@ -499,13 +460,13 @@ $(function(){
         $('#txt-precio').html($(this).attr('data-precio'));
         $('#txt-monto').html($(this).attr('data-monto'));
         $('#txt-factura').html($(this).attr('data-factura'));
+        $('#img-detalle').attr("src", $(this).attr('data-imagen_url'));
         var estado = $(this).attr('data-estado');
         if(estado == 0){ $('#txt-estado').html('<span class="badge badge-info">GUARDADO</span>'); }
         if(estado == 1){ $('#txt-estado').html('<span class="badge badge-success">PUBLICADO</span>'); }
         if(estado == 2){ $('#txt-estado').html('<span class="badge badge-primary">FINALIZADO</span>'); }
         if(estado == 3){ $('#txt-estado').html('<span class="badge badge-danger">VENCIDO</span>'); }
     });
-
 
 
 });

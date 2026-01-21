@@ -4,11 +4,20 @@
 @section('contenido')
 
 <div class="col-md-10 content-pane">
-		<h3 class="title-header" style="text-transform: uppercase;">
-			<i class="fa fa-plus"></i>
-			{{$titulo}}
-			<a href="{{url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
-		</h3>
+    <div class="title-container">
+        <div class="row">
+            <div class="col-6">
+				<h3 class="title-header" style="text-transform: uppercase;">
+					<i class="fa fa-plus"></i>
+					{{$titulo}}
+				</h3>
+			</div>
+            <div class="col-6">
+				<a href="{{url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+			</div>
+		</div>
+	</div>		
+	
 
 		<div class="row">
 			<div class="col-md-12">
@@ -88,9 +97,8 @@
 														<select required class="form-control @error('usu_rol') is-invalid @enderror" name="usu_rol" id="usu_rol">
 															<option value="">Seleccione una opción</option>
 															<option value="1" {{ old('usu_rol') == 1 ? 'selected' : '' }}>Administrador</option>
-															<option value="2" {{ old('usu_rol') == 2 ? 'selected' : '' }}>Encargado Almacen</option>
-															<option value="3" {{ old('usu_rol') == 3 ? 'selected' : '' }}>Encargado Ventas</option>
-															<option value="4" {{ old('usu_rol') == 4 ? 'selected' : '' }}>Gerencia</option>
+															<option value="2" {{ old('usu_rol') == 2 ? 'selected' : '' }}>Publicador</option>
+															<option value="3" {{ old('usu_rol') == 3 ? 'selected' : '' }}>Gerencia</option>
 														</select>
 														@error('usu_rol')
 														<div class="invalid-feedback">

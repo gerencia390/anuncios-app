@@ -20,7 +20,7 @@ class AuthController extends Controller
         $credenciales = $request->validate([
             'uuo' => 'required',
             'ovc' => 'required',
-            'g-recaptcha-response' => 'required|recaptchav3:captcha,0.5',            
+            // 'g-recaptcha-response' => 'required|recaptchav3:captcha,0.5',            
         ]);
 
         if(Auth::attempt(['usu_nombre' => $usr, 'password' => $pwd])){
@@ -29,13 +29,10 @@ class AuthController extends Controller
             if($usuario->usu_rol == '1'){ //ADMINISTRADOR
                 return redirect('dashboard');
             }
-            if($usuario->usu_rol == '2'){ //ALMACEN
-                return redirect('dashboard');
+            if($usuario->usu_rol == '2'){ //PUBLICADOR
+                return redirect('anuncios');
             }
-            if($usuario->usu_rol == '3'){ //VENTAS
-                return redirect('dashboard');
-            }
-            if($usuario->usu_rol == '4'){ //GERENCIA
+            if($usuario->usu_rol == '3'){ //GERENCIA
                 return redirect('dashboard');
             }
         }

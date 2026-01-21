@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-6">
 				<h3 class="title-header" style="text-transform: uppercase;">
-					<i class="fa fa-plus"></i>
+					<i class="fa fa-edit"></i>
 					{{$titulo}}
 				</h3>
 			</div>
@@ -25,7 +25,8 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{url('anuncios')}}" method="POST">
+								<form id="form-nuevo-producto" action="{{url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
+								  @method("PUT")
 								  @csrf
 								  <section id="seccion-datos-anuncio">
 									Los campos con <span class="text-danger">*</span> son obligatorios.
@@ -38,7 +39,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establecer el codigo de anuncio. Este se genera automaticamente y de acuerdo a la categoria"></i>
 												</label>
-												<input required type="text" value="{{ $codigo_siguiente }}" class="form-control @error('anu_codigo_anuncio') is-invalid @enderror" name="anu_codigo_anuncio" id="anu_codigo_anuncio" placeholder="Código del anuncio" readonly>
+												<input required type="text" value="{{old('anu_codigo_anuncio', $anuncio->anu_codigo_anuncio)}}" class="form-control @error('anu_codigo_anuncio') is-invalid @enderror" name="anu_codigo_anuncio" id="anu_codigo_anuncio" placeholder="Código del anuncio" readonly>
 												@error('anu_codigo_anuncio')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -55,8 +56,8 @@
 												</label>
 												<select autofocus required class="form-control @error('tip_id') is-invalid @enderror" name="tip_id" id="tip_id">
 													<option value="">Seleccione una opción</option>
-													<option data-precio="{{$ajustes->where('key', 'precio_clasificados')->first()->value}}" value="1">Clasificados</option>
-													<option data-precio="{{$ajustes->where('key', 'precio_destacados')->first()->value}}" value="2">Destacados</option>
+													<option data-precio="{{$ajustes->where('key', 'precio_clasificados')->first()->value}}" value="1" {{ old('tip_id', $anuncio->tip_id) == 1 ? 'selected' : '' }}>Clasificados</option>
+													<option data-precio="{{$ajustes->where('key', 'precio_destacados')->first()->value}}" value="2" {{ old('tip_id', $anuncio->tip_id) == 2 ? 'selected' : '' }}>Destacados</option>
 												</select>
 												@error('tip_id')
 												<div class="invalid-feedback">
@@ -75,7 +76,7 @@
 												<select required class="form-control @error('cat_id') is-invalid @enderror" name="cat_id" id="cat_id">
 													<option value="">Seleccione una opción</option>
 													@foreach($categorias as $categoria)
-													<option data-catletra="{{ $categoria->cat_letra_codigo }}" style="text-transform: capitalize" value="{{ $categoria->cat_id }}" {{ old('cat_id') == $categoria->cat_id ? 'selected' : '' }}>{{ $categoria->cat_nombre }}</option>
+													<option data-catletra="{{ $categoria->cat_letra_codigo }}" style="text-transform: capitalize" value="{{ $categoria->cat_id }}" {{ old('cat_id', $categoria->cat_id) == $anuncio->cat_id ? 'selected' : '' }}>{{ $categoria->cat_nombre }}</option>
 													@endforeach
 												</select>
 												@error('cat_id')
@@ -93,7 +94,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece la fecha de publicación del anuncio. Es editable."></i>
 												</label>
-												<input required type="date" value="{{ date('Y-m-d') }}" class="form-control @error('anu_fecha_inicio') is-invalid @enderror" name="anu_fecha_inicio" id="anu_fecha_inicio" placeholder="Fecha de publicación">
+												<input required type="date" value="{{old('anu_fecha_inicio', $anuncio->anu_fecha_inicio)}}" class="form-control @error('anu_fecha_inicio') is-invalid @enderror" name="anu_fecha_inicio" id="anu_fecha_inicio" placeholder="Fecha de publicación">
 												@error('anu_fecha_inicio')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -112,7 +113,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece el nombre del cliente"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_cliente') is-invalid @enderror" name="anu_cliente" id="anu_cliente" placeholder="Nombre del cliente">
+												<input required type="text" value="{{old('anu_cliente', $anuncio->anu_cliente)}}" class="form-control @error('anu_cliente') is-invalid @enderror" name="anu_cliente" id="anu_cliente" placeholder="Nombre del cliente">
 												@error('anu_cliente')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -127,7 +128,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establecer el NIT o CI del cliente"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_nit_ci') is-invalid @enderror" name="anu_nit_ci" id="anu_nit_ci" placeholder="NIT/CI del cliente">
+												<input required type="text" value="{{old('anu_nit_ci', $anuncio->anu_nit_ci)}}" class="form-control @error('anu_nit_ci') is-invalid @enderror" name="anu_nit_ci" id="anu_nit_ci" placeholder="NIT/CI del cliente">
 												@error('anu_nit_ci')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -141,14 +142,11 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="label-blue label-block" for="">
-													Concepto/Titulo Anuncio:
+													Concepto Titulo Anuncio:
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece el concepto del anuncio"></i>
 												</label>
-												<input required type="text" maxlength="{{ $ajustes->where('key', 'max_letras_concepto')->first()->value }}" value="" class="form-control @error('anu_concepto') is-invalid @enderror" name="anu_concepto" id="anu_concepto" placeholder="Concepto del anuncio">
-												<small class="text-muted">
-													<span id="contador-concepto">0</span>/{{ $ajustes->where('key', 'max_letras_concepto')->first()->value }} caracteres
-												</small>												
+												<input required type="text" value="{{old('anu_concepto', $anuncio->anu_concepto)}}" class="form-control @error('anu_concepto') is-invalid @enderror" name="anu_concepto" id="anu_concepto" placeholder="Concepto del anuncio">
 												@error('anu_concepto')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -163,10 +161,8 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece la descripción del anuncio"></i>
 												</label>
-												<textarea required type="text" value="" maxlength="{{ $ajustes->where('key', 'max_letras_descripcion')->first()->value }}" class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Descripción del anuncio"></textarea>
-												<small class="text-muted">
-													<span id="contador">0</span>/{{ $ajustes->where('key', 'max_letras_descripcion')->first()->value }} caracteres
-												</small>												
+												<textarea required type="text" value="" class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Descripción del anuncio">{{old('anu_descripcion', $anuncio->anu_descripcion)}}													
+												</textarea>
 												@error('anu_descripcion')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -184,7 +180,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establecer la ubicación donde referencia el anuncio"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_ubicacion') is-invalid @enderror" name="anu_ubicacion" id="anu_ubicacion" placeholder="Ubicación del anuncio">
+												<input required type="text" value="{{old('anu_ubicacion', $anuncio->anu_ubicacion)}}" class="form-control @error('anu_ubicacion') is-invalid @enderror" name="anu_ubicacion" id="anu_ubicacion" placeholder="Ubicación del anuncio">
 												@error('anu_ubicacion')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -199,7 +195,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece el precio o sueldo del anuncio"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_precio') is-invalid @enderror" name="anu_precio" id="anu_precio" placeholder="Precio/Sueldo">
+												<input required type="text" value="{{old('anu_precio', $anuncio->anu_precio_sueldo)}}" class="form-control @error('anu_precio') is-invalid @enderror" name="anu_precio" id="anu_precio" placeholder="Precio/Sueldo">
 												@error('anu_precio')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -214,7 +210,7 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece los teléfonos de contacto del cliente"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_telefonos_contacto') is-invalid @enderror" name="anu_telefonos_contacto" id="anu_telefonos_contacto" placeholder="Teléfonos de contacto">
+												<input required type="text" value="{{old('anu_telefonos_contacto', $anuncio->anu_telefonos_contacto)}}" class="form-control @error('anu_telefonos_contacto') is-invalid @enderror" name="anu_telefonos_contacto" id="anu_telefonos_contacto" placeholder="Teléfonos de contacto">
 												@error('anu_telefonos_contacto')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -253,7 +249,7 @@
 													Monto total	a pagar (en Bs):
 													<i class="fa fa-question-circle float-right" title="Establece el monto total a pagar por el anuncio. Este campo se llena automáticamente al seleccionar el tipo de anuncio"></i>
 												</label>
-												<input required type="text" value="" class="form-control @error('anu_monto_pago') is-invalid @enderror" readonly name="anu_monto_pago" id="anu_monto_pago" placeholder="Monto total a pagar">
+												<input required type="text" value="{{old('anu_monto_pago', $anuncio->anu_monto_pago)}}" class="form-control @error('anu_monto_pago') is-invalid @enderror" readonly name="anu_monto_pago" id="anu_monto_pago" placeholder="Monto total a pagar">
 												@error('anu_monto_pago')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -267,7 +263,7 @@
 													Nro. Factura:
 													<i class="fa fa-question-circle float-right" title="Establece el número de factura. Este campo no es obligatorio"></i>
 												</label>
-												<input type="text" value="" class="form-control @error('anu_nro_factura') is-invalid @enderror" name="anu_nro_factura" id="anu_nro_factura" placeholder="Nro. Factura">
+												<input type="text" value="{{old('anu_nro_factura', $anuncio->anu_nro_factura)}}" class="form-control @error('anu_nro_factura') is-invalid @enderror" name="anu_nro_factura" id="anu_nro_factura" placeholder="Nro. Factura">
 												@error('anu_nro_factura')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -338,21 +334,7 @@ $(function(){
 		input.val(nuevoCodigo);
 	});
 
-	//control contador letras concepto anuncio
-	$('#anu_concepto').on('input', function () {
-		let max = this.maxLength;
-		let actual = this.value.length;
 
-		$('#contador-concepto').text(actual);
-	});
-
-	//control contador letras descripcion anuncio
-	$('#anu_descripcion').on('input', function () {
-		let max = this.maxLength;
-		let actual = this.value.length;
-
-		$('#contador').text(actual);
-	});
 
 });	
 

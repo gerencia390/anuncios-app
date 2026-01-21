@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('tip_descripcion')->nullable();
             $table->boolean('tip_activo')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

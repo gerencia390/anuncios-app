@@ -4,11 +4,19 @@
 @section('contenido')
 
 <div class="col-md-10 content-pane">
-		<h3 class="title-header" style="text-transform: uppercase;">
-			<i class="fa fa-edit"></i>
-			{{$titulo}}
-			<a href="{{url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
-		</h3>
+    <div class="title-container">
+        <div class="row">
+            <div class="col-6">
+				<h3 class="title-header" style="text-transform: uppercase;">
+					<i class="fa fa-edit"></i>
+					{{$titulo}}
+				</h3>
+			</div>
+            <div class="col-6">
+					<a href="{{url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+			</div>
+		</div>
+	</div>		
 
 		<div class="row">
 			<div class="col-md-12">

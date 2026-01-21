@@ -39,7 +39,7 @@ CONF PARA ANUNCIOS
 
 .slideshow {
     position: relative;
-    height: 40vh;
+    height: 20vw;
     overflow: hidden;
 }
 
@@ -48,8 +48,11 @@ CONF PARA ANUNCIOS
     inset: 0;
     opacity: 0;
     transition: opacity 1s ease-in-out;
-    height: 45vh;       /* fijo relativo */
+    /* height: 45vh;       fijo relativo */
     overflow: hidden;
+    background-color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .slide h2 {
@@ -111,22 +114,22 @@ CONF PARA ANUNCIOS
 
 
 .codigo-anuncio {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     line-height: 1.1;
-    color: #003366;
+    color: #5FAE41;
 }
 
 .titulo-anuncio-marquee {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    line-height: 1.2;
+    line-height: 1.5;
     text-transform: uppercase;
     color: #000;
 }
 
 .descripcion-anuncio-marquee {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.2;
     max-height: 4.8em;  /* 2 líneas */
     overflow: hidden;
@@ -134,7 +137,7 @@ CONF PARA ANUNCIOS
 }
 
 .ref-anuncio-marquee {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.1;
     font-weight: bold;
     color: #0055cc;
@@ -168,4 +171,39 @@ CONF PARA ANUNCIOS
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.header-container{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #fff;
+}
+
+/*
+-------------------------------------
+MARQUEE DESTACADOS
+-------------------------------------
+*/
+.marquee-track-container {
+    width: 100%;           /* ancho visible */
+    overflow: hidden;      /* oculta scroll */
+    border: 1px solid #ccc;
+    position: relative;
+    height: 15vw;          /* altura de los items */
+}
+
+.marquee-track {
+    display: flex;
+    position: absolute;
+    left: 100%;            /* empieza fuera del contenedor */
+}
+
+.marquee-item-o {
+    width: 250px;
+    /* flex: 0 0 auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    white-space: nowrap; */
 }

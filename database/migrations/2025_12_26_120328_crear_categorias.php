@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('cat_letra_codigo', 3); 
             $table->boolean('cat_activo')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

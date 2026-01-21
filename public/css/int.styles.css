@@ -25,10 +25,9 @@ body {
 
 
 .title-header{
-  border-bottom:2px solid #aaa;
-  padding:10px 15px;
   color:#0d4a9a;
   font-weight: bold;
+  margin-bottom: 0px;
 }
 
 .subtitle-header{
@@ -124,7 +123,7 @@ PAGE PRELOADER
   min-height: 88vh;
 }
 .nav-contextual-container{
-  background-color: #003366;
+  background-color: #343A40;
   padding-right:5px !important;
 }
 
@@ -418,3 +417,49 @@ canvas{
 }
 
 
+.fab-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #5FAE41;
+    color: #fff;
+    font-size: 22px;
+    border: none;
+    z-index: 1050;
+    box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+
+.fab-menu:focus {
+    outline: none;
+}
+
+.box-detalle-modal > div:first-child{
+  font-size: 12px;
+  font-weight: bold;
+}
+.box-detalle-modal > div:last-child{
+  text-transform: capitalize;
+}
+
+.title-container{
+  border-bottom:2px solid #aaa;
+  margin-bottom: 5px;
+  padding:10px;
+}
+
+.preview-box {
+    margin-top: 10px;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.preview-box img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
