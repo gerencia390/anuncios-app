@@ -7,7 +7,7 @@
     <title>@yield('titulo') - {{env('APP_NAME')}}</title>
     {{-- HOJAS DE ESTILO --}}
     <link rel="shortcut icon" href="{{secure_url('img/favicon.ico')}}" type="image/x-icon">
-	<link rel="icon" href="{{url('img/favicon.ico')}}" type="image/x-icon">
+	<link rel="icon" href="{{secure_url('img/favicon.ico')}}" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="{{secure_url('css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{secure_url('css/int.styles.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{secure_url('css/font-awesome.min.css')}}">
