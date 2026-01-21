@@ -8,16 +8,16 @@
     {{-- HOJAS DE ESTILO --}}
     <link rel="shortcut icon" href="{{url('img/favicon.ico')}}" type="image/x-icon">
 	<link rel="icon" href="{{url('img/favicon.ico')}}" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="{{url('css/bootstrap.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url('css/ext.styles.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url('css/font-awesome.min.css')}}">
-    <script src="{{url('js/jquery36.min.js')}}"></script>
-    <script src="{{url('js/popper.min.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
+	<link rel="stylesheet" type="text/css" href="{{secure_url('css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{secure_url('css/ext.styles.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{secure_url('css/font-awesome.min.css')}}">
+    <script src="{{secure_url('js/jquery36.min.js')}}"></script>
+    <script src="{{secure_url('js/popper.min.js')}}"></script>
+    <script src="{{secure_url('js/bootstrap.min.js')}}"></script>
 
     <style>
         body{
-          background-image: url('{{asset('img/bg_login.png')}}');
+          background-image: url('{{secure_asset('img/bg_login.png')}}');
           background-position: center center;
           background-repeat: no-repeat;
           background-attachment: fixed;
