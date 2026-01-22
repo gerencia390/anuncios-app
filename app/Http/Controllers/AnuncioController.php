@@ -22,9 +22,33 @@ class AnuncioController extends Controller
         //verificar si esta logueado el usuario
         if(!Auth::check()){return redirect('/');}
         // anuncios clasificados y destacados
-        $anuncios = Anuncio::whereIn('tip_id', [1, 2])
+        $anuncios = Anuncio::
+        select(
+                'anuncios.anu_id',
+                'tipos.tip_id',
+                'categorias.cat_id',
+                'tipos.tip_nombre',
+                'categorias.cat_nombre',
+                'usuarios.usu_nombre_completo',
+                'anuncios.anu_codigo_anuncio',
+                'anuncios.anu_concepto',
+                'anuncios.anu_descripcion',
+                'anuncios.anu_fecha_inicio',
+                'anuncios.anu_fecha_vencimiento',
+                'anuncios.anu_cliente',
+                'anuncios.anu_nit_ci',
+                'anuncios.anu_telefonos_contacto',
+                'anuncios.anu_ubicacion',
+                'anuncios.anu_precio_sueldo',
+                'anuncios.anu_monto_pago',
+                'anuncios.anu_nro_factura',
+                'anuncios.anu_estado'
+            )
+            ->join('tipos', 'tipos.tip_id', '=', 'anuncios.tip_id')
+            ->join('categorias', 'categorias.cat_id', '=', 'anuncios.cat_id')
+            ->join('usuarios', 'usuarios.usu_id', '=', 'anuncios.usu_id')
+            ->whereIn('anuncios.tip_id', [1, 2])
             ->orderByDesc('anu_id')
-            ->limit(10)
             ->get();
 
         $categorias = Categoria::all();
