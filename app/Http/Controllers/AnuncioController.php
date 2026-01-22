@@ -21,8 +21,11 @@ class AnuncioController extends Controller
     {
         //verificar si esta logueado el usuario
         if(!Auth::check()){return redirect('/');}
-        //muestra los todos los anuncios
-        $anuncios = Anuncio::where('tip_id', 1)->orWhere('tip_id', 2)->orderBy('anu_id', 'desc')->get();// clasificados y destacados
+        // anuncios clasificados y destacados
+        $anuncios = Anuncio::whereIn('tip_id', [1, 2])
+            ->orderByDesc('anu_id')
+            ->get();
+
         $categorias = Categoria::all();
         $titulo = "Listado de Anuncios Clientes";
         return view('anuncios.lista_anuncios', [

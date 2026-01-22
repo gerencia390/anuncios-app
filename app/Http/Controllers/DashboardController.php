@@ -24,9 +24,9 @@ class DashboardController extends Controller
         if(!Auth::check()){return redirect('/');}
 
         $usuario = Auth::user();
-        $anuncios_propios = Anuncio::where('tip_id', 3)->orderBy('anu_id', 'desc')->get();
-        $anuncios = Anuncio::where('tip_id', 1)->orWhere('tip_id', 2)->orderBy('anu_id', 'desc')->get();// clasificados y destacados
-        $usuarios = Usuario::all();
+        // $anuncios_propios = Anuncio::where('tip_id', 3)->orderBy('anu_id', 'desc')->get();
+        // $anuncios = Anuncio::where('tip_id', 1)->orWhere('tip_id', 2)->orderBy('anu_id', 'desc')->get();// clasificados y destacados
+        // $usuarios = Usuario::all();
         $titulo = "Panel General";
         $fecha_hoy = date('Y-m-d');
         $mes = date('m');
@@ -35,14 +35,14 @@ class DashboardController extends Controller
          * CLASIFICADOS
          */
         //anuncios del dia, mes y año
-        $anuncios_anio= Anuncio::whereYear('anu_fecha_inicio', $anio)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
-        $anuncios_mes = Anuncio::whereMonth('anu_fecha_inicio', $mes)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
-        $anuncios_dia = Anuncio::whereDate('anu_fecha_inicio', $fecha_hoy)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
+        $anuncios_anio= Anuncio::whereYear('anu_fecha_inicio', $anio)->whereIn('tip_id', [1, 2])->get();
+        $anuncios_mes = Anuncio::whereMonth('anu_fecha_inicio', $mes)->whereIn('tip_id', [1, 2])->get();
+        $anuncios_dia = Anuncio::whereDate('anu_fecha_inicio', $fecha_hoy)->whereIn('tip_id', [1, 2])->get();
         //anuncios por estado
-        $anuncios_guardado= Anuncio::where('anu_estado', 0)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
-        $anuncios_publicado= Anuncio::where('anu_estado', 1)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
-        $anuncios_finalizado = Anuncio::where('anu_estado', 2)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
-        $anuncios_vencido = Anuncio::where('anu_estado', 3)->where('tip_id', 1)->orWhere('tip_id', 2)->get();
+        $anuncios_guardado= Anuncio::where('anu_estado', 0)->whereIn('tip_id', [1, 2])->get();
+        $anuncios_publicado= Anuncio::where('anu_estado', 1)->whereIn('tip_id', [1, 2])->get();
+        $anuncios_finalizado = Anuncio::where('anu_estado', 2)->whereIn('tip_id', [1, 2])->get();
+        $anuncios_vencido = Anuncio::where('anu_estado', 3)->whereIn('tip_id', [1, 2])->get();
         //para grafico registrados ultimos meses
         $anuncios_ultimos_6_meses = collect();
 
@@ -51,7 +51,7 @@ class DashboardController extends Controller
             $inicio = Carbon::now()->subMonths($i)->startOfMonth();
             $fin    = Carbon::now()->subMonths($i)->endOfMonth();
 
-            $total = Anuncio::whereBetween('anu_fecha_inicio', [$inicio, $fin])->where('tip_id', 1)->orWhere('tip_id',2)
+            $total = Anuncio::whereBetween('anu_fecha_inicio', [$inicio, $fin])->whereIn('tip_id', [1, 2])
                 ->count();
 
             $anuncios_ultimos_6_meses->push([
@@ -97,8 +97,8 @@ class DashboardController extends Controller
         return view('dashboard.detalle_tablero', [
                                                     'usuario'=>$usuario, 
                                                     'titulo'=>$titulo, 
-                                                    'anuncios'=>$anuncios,
-                                                    'anuncios_propios'=>$anuncios_propios,
+                                                    // 'anuncios'=>$anuncios,
+                                                    // 'anuncios_propios'=>$anuncios_propios,
                                                     //clasificados
                                                     'anuncios_dia'=>$anuncios_dia,
                                                     'anuncios_mes'=>$anuncios_mes,
