@@ -24,6 +24,7 @@ class AnuncioController extends Controller
         // anuncios clasificados y destacados
         $anuncios = Anuncio::whereIn('tip_id', [1, 2])
             ->orderByDesc('anu_id')
+            ->limit(10)
             ->get();
 
         $categorias = Categoria::all();
