@@ -26,7 +26,7 @@
                         @if($anuncios->count() == 0)
                         <div class="alert alert-info">
                             <div class="media">
-                                <img src="{{secure_asset('img/alert-info.png')}}" class="align-self-center mr-3" alt="...">
+                                <img src="{{asset('img/alert-info.png')}}" class="align-self-center mr-3" alt="...">
                                 <div class="media-body">
                                     <h5 class="mt-0">Nota.-</h5>
                                     <p>
@@ -45,7 +45,6 @@
                                 <th>FECHAS</th>
                                 <th>TIPO</th>
                                 <th>CATEGORIA</th>
-                                <th>CLIENTE</th>
                                 <th>CONCEPTO</th>
                                 <th>ESTADO</th>
                                 <th>OPCION</th>
@@ -68,18 +67,12 @@
                                     </small>
                                 </td>
                                 <td class="text-center">
-                                    @if ($item->tipo->tip_id == 1)
+                                    @if ($item->tip_id == 3)
                                     <span class="badge badge-secondary" style="text-transform: uppercase">{{$item->tipo->tip_nombre}}</span>                                                                            
                                     @endif
-                                    @if ($item->tipo->tip_id == 2)
-                                    <span class="badge badge-info" style="text-transform: uppercase">{{$item->tipo->tip_nombre}}</span>                                                                            
-                                    @endif
                                 </td>
                                 <td class="text-center">
-                                    {{$item->categoria->cat_nombre}}
-                                </td>
-                                <td class="text-center">
-                                    {{$item->anu_cliente}}
+                                    {{$item->cat_nombre}}
                                 </td>
                                 <td class="text-center">
                                     {{$item->anu_concepto}}
@@ -106,9 +99,9 @@
                                       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item btn-ver-detalle" 
                                                 data-anuId="{{$item->anu_id}}" 
-                                                data-tipo="{{$item->tipo->tip_nombre}}" 
-                                                data-categoria="{{$item->categoria->cat_nombre}}" 
-                                                data-publicador="{{$item->usuario->usu_nombre_completo}}" 
+                                                data-tipo="{{$item->tip_nombre}}" 
+                                                data-categoria="{{$item->cat_nombre}}" 
+                                                data-publicador="{{$item->usu_nombre_completo}}" 
                                                 data-codigo="{{$item->anu_codigo_anuncio}}" 
                                                 data-concepto="{{$item->anu_concepto}}" 
                                                 data-descripcion="{{$item->anu_descripcion}}" 
@@ -165,7 +158,7 @@
         <div class="modal-body">
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Advertencia.-</h5>
                         <p>
@@ -281,7 +274,7 @@
             </div>
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Cuidado.-</h5>
                         <p>
@@ -293,7 +286,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-finalizar-anuncio" action="{{secure_url('anuncios_propios')}}" data-simple-action="{{secure_url('anuncios_propios/finalizar')}}" method="post">
+          <form id="form-finalizar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios/finalizar')}}" method="post">
             @method('post')
             @csrf
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Si, finalizar</button>
@@ -326,7 +319,7 @@
             </div>
             <div class="alert alert-danger">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-danger.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-danger.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Cuidado.-</h5>
                         <p>
@@ -338,7 +331,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-eliminar-anuncio" action="{{secure_url('anuncios_propios')}}" data-simple-action="{{secure_url('anuncios_propios')}}" method="post">
+          <form id="form-eliminar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios')}}" method="post">
             @method('delete')
             @csrf
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Si, eliminar</button>
@@ -356,7 +349,7 @@ $(function(){
     * CONFIGURACION DATA TABLES
     -------------------------------------------------------------
     */
-    $('.tabla-datos-anuncios').DataTable({"language":{url: '{{secure_asset('js/datatables-lang-es.json')}}'}, "order": [[ 0, "desc" ]]});
+    $('.tabla-datos-anuncios').DataTable({"language":{url: '{{asset('js/datatables-lang-es.json')}}'}, "order": [[ 0, "desc" ]]});
 
     //Conf popover
     $('[data-toggle="popover"]').popover()

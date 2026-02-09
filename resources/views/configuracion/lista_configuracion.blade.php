@@ -4,13 +4,20 @@
 @section('contenido')
 
 <div class="col-md-10 content-pane">
-    <h3 class="title-header" style="text-transform: uppercase;">
-        <i class="fa fa-line-chart"></i>
-        {{$titulo}}
-    </h3>
+    <div class="title-container">
+        <div class="row">
+            <div class="col-6">
+				<h3 class="title-header" style="text-transform: uppercase;">
+					<i class="fa fa-cogs"></i>
+					{{$titulo}}
+				</h3>
+			</div>
+            <div class="col-6">
+			</div>
+		</div>
+	</div>		
     <div class="row">
-        <div class="col-12">
-              
+        <div class="col-12">              
                 <!-- inicio card  -->
                 <div class="card card-stat">
                     <div class="card-body">

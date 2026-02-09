@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\AnuncioPropioController;
+use App\Http\Controllers\LetrerosController;
+use App\Http\Controllers\ConfiguracionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +57,7 @@ Route::resource('/dashboard', DashboardController::class);
 * RUTAS: ANUNCIOS CLASIFICADOS - DESTACADOS
 ----------------------------------------
 */
-Route::get('/anuncios/letrero1', [AnuncioController::class ,'letrero1']);
+// Route::get('/anuncios/letrero1', [AnuncioController::class ,'letrero1']);
 Route::post('/anuncios/finalizar/{anu_id}', [AnuncioController::class ,'finalizar']);
 Route::resource('/anuncios', AnuncioController::class);
 
@@ -66,6 +68,16 @@ Route::resource('/anuncios', AnuncioController::class);
 */
 Route::post('/anuncios_propios/finalizar/{anu_id}', [AnuncioPropioController::class ,'finalizar']);
 Route::resource('/anuncios_propios', AnuncioPropioController::class);
+
+/*
+----------------------------------------
+* RUTAS: LETREROS
+----------------------------------------
+*/
+Route::get('/letreros/uno', [LetrerosController::class ,'letrero1']);
+Route::get('/letreros/dos', [LetrerosController::class ,'letrero2']);
+Route::resource('/letreros', LetrerosController::class);
+
 /*
 ----------------------------------------
 * RUTAS: USUARIOS
@@ -73,8 +85,12 @@ Route::resource('/anuncios_propios', AnuncioPropioController::class);
 */
 Route::resource('/usuarios', UsuarioController::class);
 
-
-
+/*
+----------------------------------------
+* RUTAS: AJUSTES / CONFIGURACIÓN
+----------------------------------------
+*/
+Route::resource('/configuracion', ConfiguracionController::class);
 /*
 ----------------------------------------
 * RUTAS: REPORTES

@@ -4,35 +4,45 @@
 @section('contenido')
 
 <div id="container" style="padding:10px;">
-                    <div class="text-center header-container">
-                        <img style="width:50%;" src="{{ asset('img/logo-supercasas.png')}}" alt="..." class="">
-                    </div>
-
-                    <!-- SLIDESHOW ANUNCIOS PROPIOS -->
-                    <section id="slideshow" class="slideshow">
-                        @foreach($propios as $index => $anuncio)
-                            <div class="slide {{ $index === 0 ? 'active' : '' }}">
-                                <div class="row no-gutters">
-                                    <div class="col-5">
-                                        <img src="{{ url($anuncio->anu_imagen_url) }}" style="width: 100%; padding:5px;" alt="">
-                                    </div>
-                                    <div class="col-7">
-                                        <h4 class="text-success">{{$anuncio->anu_concepto}}</h4>
-                                        <div class="descripcion-slide">
-                                            {!! $anuncio->anu_descripcion !!}
-                                        </div>
+             <div class="text-center header-container">
+                 <img style="width:50%;" src="{{ asset('img/logo-supercasas.png')}}" alt="..." class="">
+             </div>
+            <h4 class="subt-destacados">ANUNCIOS DESTACADOS</h4>
+                    <!-- Marquee horizontal para destacados -->
+                    <div class="marquee-track-container">
+                        <div class="marquee-track">
+                            @foreach($destacados as $item)
+                            <div class="marquee-item-o">
+                                <div class="card">
+                                    <div class="card-body p-2">
+                                            <div class="codigo-anuncio">
+                                                @php
+                                                $partes = explode('-', $item->anu_codigo_anuncio);   // ['AL', '456', '2025']
+                                                $resultado = implode('-', array_slice($partes, 0, 2));
+                                                @endphp
+                                                {{ $resultado }}
+                                            </div>
+                                            <div class="titulo-anuncio-marquee">
+                                                {{ $item->anu_concepto }}
+                                            </div>
+                                            <div class="descripcion-anuncio-marquee">
+                                                {{ $item->anu_descripcion }}
+                                            </div>
+                                            <div class="ref-anuncio-marquee">
+                                                Ref.: {{ $item->anu_telefonos_contacto }}
+                                            </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </section>
-
+                            @endforeach
+                        </div>
+                    </div>
 
     {{-- GRILLA DE CLASIFICADOS --}}
     <div class="row" style="height:50%; overflow:hidden;">
         <div class="col-12">
 
-            <h4 class="subt-clasificados">VENTA - ALQUILER - ANTICRETICO</h4>
+            <h4 class="subt-clasificados">EMPLEOS - VARIOS</h4>
 
             <div id="marquee-wrapper">
                 <div id="marquee-content">

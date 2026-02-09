@@ -13,7 +13,7 @@
 				</h3>
 			</div>
             <div class="col-6">
-					<a href="{{url('anuncios_propios')}}" title="Volver a lista de productos" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+					<a href="{{url('anuncios_propios')}}" title="Volver a lista de anuncios propios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
 			</div>
 		</div>
 	</div>			
@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-anuncio" action="{{secure_url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
+								<form id="form-nuevo-anuncio" action="{{url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
 								  @csrf
 								  <section id="seccion-datos-anuncio">
 									Los campos con <span class="text-danger">*</span> son obligatorios.
@@ -52,7 +52,14 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece la descripción del anuncio"></i>
 												</label>
-												<textarea class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Copiar de la ficha técnica resumida"></textarea>
+												<textarea class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Copiar de la ficha técnica resumida">
+<div><strong>SUPERFICIE: </strong>Ejemplo:200,00 m2</div>
+<div><strong>ZONA:</strong>Ejemplo URB. Las Marias</div>
+<div><strong>PRECIO: </strong>Ejemplo USD 145.000,00</div>
+<div><strong>TIPO VENTA: </strong>Ejemplo CONTADO</div>
+<div><strong>UBICACION:</strong> Ejemplo A UNA CUADRA Y MEDIA DE LA AVENIDA SANTA FE</div>
+<div><strong>SERVICIOS:</strong> Ejemplo LUZ, AGUA ALCANTARILLADO, GAS DOMICILIARIO</div>													
+												</textarea>
 												@error('anu_descripcion')
 												<div class="invalid-feedback">
 													{{$message}}

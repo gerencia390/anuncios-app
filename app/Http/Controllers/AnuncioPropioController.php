@@ -25,7 +25,27 @@ class AnuncioPropioController extends Controller
         //verificar si esta logueado el usuario
         if(!Auth::check()){return redirect('/');}
         //muestra los todos los anuncios
-        $anuncios = Anuncio::where('tip_id', 3)->orderBy('anu_id', 'desc')->get();
+        $anuncios = Anuncio::
+        select(
+                'anuncios.anu_id',
+                'tipos.tip_id',
+                'categorias.cat_id',
+                'tipos.tip_nombre',
+                'categorias.cat_nombre',
+                'usuarios.usu_nombre_completo',
+                'anuncios.anu_codigo_anuncio',
+                'anuncios.anu_concepto',
+                'anuncios.anu_descripcion',
+                'anuncios.anu_fecha_inicio',
+                'anuncios.anu_fecha_vencimiento',
+                'anuncios.anu_telefonos_contacto',
+                'anuncios.anu_estado',
+                'anuncios.anu_imagen_url'
+            )
+            ->join('tipos', 'tipos.tip_id', '=', 'anuncios.tip_id')
+            ->join('categorias', 'categorias.cat_id', '=', 'anuncios.cat_id')
+            ->join('usuarios', 'usuarios.usu_id', '=', 'anuncios.usu_id')
+            ->where('anuncios.tip_id', 3)->orderBy('anu_id', 'desc')->get();
         $categorias = Categoria::all();
         $titulo = "Listado de Anuncios Propios";
         return view('anuncios.lista_anuncios_propios', [

@@ -173,7 +173,7 @@ $(function(){
     * CONFIGURACION DATA TABLES
     -------------------------------------------------------------
     */
-    $('.tabla-datos').DataTable({"language":{url: '{{secure_asset('js/datatables-lang-es.json')}}'}, "order": [[ 5, "desc" ]]});
+    $('.tabla-datos').DataTable({"language":{url: '{{asset('js/datatables-lang-es.json')}}'}, "order": [[ 5, "desc" ]]});
 
     //Conf popover
     $('[data-toggle="popover"]').popover()
@@ -209,8 +209,8 @@ $(function(){
      labels: labels2,
      datasets: [{
        label: 'Ingresos por mes',
-       backgroundColor: 'rgb(255, 99, 132)',
-       borderColor: 'rgb(255, 99, 132)',
+       backgroundColor: '#392',
+       borderColor: '#392',
        data: [
     @foreach ($propios_ultimos_6_meses as $item)
         {{ $item["cantidad"] }},

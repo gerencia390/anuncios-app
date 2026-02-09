@@ -48,20 +48,28 @@ CONF PARA ANUNCIOS
     inset: 0;
     opacity: 0;
     transition: opacity 1s ease-in-out;
-    /* height: 45vh;       fijo relativo */
     overflow: hidden;
     background-color: #fff;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-.slide h2 {
-    font-size: 28px;
+.slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.descripcion-slide{
+    color:#1e1e1e;
+}
+
+.descripcion-slide h2 {
+    font-size: 20px;
     line-height: 1.2;
 }
 
-.slide p {
-    font-size: 18px;
+.descripcion-slide * {
+    font-size: 13px !important;
     line-height: 1.3;
     max-height: 6.5em;
     overflow: hidden;
@@ -187,9 +195,9 @@ MARQUEE DESTACADOS
 .marquee-track-container {
     width: 100%;           /* ancho visible */
     overflow: hidden;      /* oculta scroll */
-    border: 1px solid #ccc;
     position: relative;
-    height: 15vw;          /* altura de los items */
+    height: 180px;          /* altura de los items */
+    margin:5px 0;
 }
 
 .marquee-track {
@@ -199,11 +207,35 @@ MARQUEE DESTACADOS
 }
 
 .marquee-item-o {
-    width: 250px;
-    /* flex: 0 0 auto;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    white-space: nowrap; */
+    width: 200px;
+    height: 180px;
+    padding-left: 5px;
+}
+
+.marquee-item-o .card{
+    width: 100%; 
+    height: 100%;
+    border:4px solid #5FAE41;
+    margin-left: 55px !important;
+}
+
+.marquee-item-o .titulo-anuncio-marquee,
+.marquee-item-o .descripcion-anuncio-marquee,
+.marquee-item-o .ref-anuncio-marquee {
+    font-size: 15px;
+    text-align: center;
+    line-height: 18px;
+}
+
+
+.subt-destacados{
+    background-color: #5FAE41;
+    margin: 5px 0 0 0;
+    text-align: center;
+}
+
+.subt-clasificados{
+    background-color: #0F3285;
+    margin: 5px 0 2px 0;
+    text-align: center;
 }

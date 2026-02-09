@@ -13,7 +13,7 @@
 				</h3>
 			</div>
             <div class="col-6">
-					<a href="{{url('anuncios')}}" title="Volver a lista de productos" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+					<a href="{{url('anuncios')}}" title="Volver a lista de anuncios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
 			</div>
 		</div>
 	</div>			
@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{secure_url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
+								<form id="form-nuevo-producto" action="{{url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
 								  @method("PUT")
 								  @csrf
 								  <section id="seccion-datos-anuncio">
