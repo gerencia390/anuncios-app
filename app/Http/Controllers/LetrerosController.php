@@ -49,7 +49,6 @@ class LetrerosController extends Controller
                                                     'tiempo_slide'=>$conf_tiempo_slide,
                                                     'velocidad_marquee_horizontal'=>$conf_velocidad_marquee_horizontal,
                                                     'velocidad_marquee_vertical'=>$conf_velocidad_marquee_vertical,
-                                                    'destacados'=>$destacados,
                                                     'modulo_activo' => $this->modulo
                                                     ]);
     }
