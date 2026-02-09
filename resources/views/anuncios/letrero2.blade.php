@@ -5,7 +5,7 @@
 
 <div id="container" style="padding:10px;">
              <div class="text-center header-container">
-                 <img style="width:50%;" src="{{ asset('img/logo-supercasas.png')}}" alt="..." class="">
+                 <img style="width:50%;" src="{{ secure_asset('img/logo-supercasas.png')}}" alt="..." class="">
              </div>
             <h4 class="subt-destacados">ANUNCIOS DESTACADOS</h4>
                     <!-- Marquee horizontal para destacados -->

@@ -26,7 +26,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-editar-configuracion" action="{{url('configuracion/'.Crypt::encryptString(Str::random(10)))}}" method="POST">
+								<form id="form-editar-configuracion" action="{{secure_url('configuracion/'.Crypt::encryptString(Str::random(10)))}}" method="POST">
 									@method('PUT')
 									@csrf
 								  <section id="seccion-datos-cuenta-usuario">
@@ -193,7 +193,7 @@
         <div class="modal-body">
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Atención.-</h5>
                         <p>
