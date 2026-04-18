@@ -447,7 +447,7 @@ $(function(){
             .text('Procesando...');
 
         $.ajax({
-            url: '{{ url("api/anuncios/depurar") }}',
+            url: '{{ secure_url("api/anuncios/depurar") }}',
             type: 'POST',
             data: form.serialize(), // 
             success: function (response) {
