@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{url('anuncios')}}" method="POST">
+								<form id="form-nuevo-producto" action="{{secure_url('anuncios')}}" method="POST">
 								  @csrf
 								  <section id="seccion-datos-anuncio">
 									Los campos con <span class="text-danger">*</span> son obligatorios.

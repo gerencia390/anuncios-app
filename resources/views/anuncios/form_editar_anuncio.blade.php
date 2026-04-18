@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
+								<form id="form-nuevo-producto" action="{{secure_url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
 								  @method("PUT")
 								  @csrf
 								  <section id="seccion-datos-anuncio">
