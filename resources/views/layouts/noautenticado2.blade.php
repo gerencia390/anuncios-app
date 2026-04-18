@@ -44,7 +44,7 @@ html, body {
 
     transform:
         translate(-50%, -50%)
-        rotate(-90deg);
+        rotate(90deg);
 
     transform-origin: center center;
 }
