@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="{{secure_url('css/font-awesome.min.css')}}">
     <script src="{{secure_url('js/jquery36.min.js')}}"></script>
     <script src="{{secure_url('js/popper.min.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
+    <script src="{{secure_url('js/bootstrap.min.js')}}"></script>
 
     <style>
 html, body {
