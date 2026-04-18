@@ -40,6 +40,8 @@ class LetrerosController extends Controller
         $conf_tiempo_slide = Settings::where('key', 'tiempo_slide')->first()->value;
         $conf_velocidad_marquee_horizontal = Settings::where('key', 'velocidad_marquee_horizontal')->first()->value;
         $conf_velocidad_marquee_vertical = Settings::where('key', 'velocidad_marquee_vertical')->first()->value;
+        $conf_tiempo_entre_fotos = Settings::where('key', 'tiempo_entre_fotos')->first()->value;
+        $conf_tiempo_refresco_pagina = Settings::where('key', 'tiempo_refresco_pagina')->first()->value;
 
         $titulo = "Letrero Anuncios Propios";
         return view('anuncios.letrero1', [
@@ -49,6 +51,8 @@ class LetrerosController extends Controller
                                                     'tiempo_slide'=>$conf_tiempo_slide,
                                                     'velocidad_marquee_horizontal'=>$conf_velocidad_marquee_horizontal,
                                                     'velocidad_marquee_vertical'=>$conf_velocidad_marquee_vertical,
+                                                    'tiempo_entre_fotos'=>$conf_tiempo_entre_fotos,
+                                                    'tiempo_refresco_pagina'=>$conf_tiempo_refresco_pagina,
                                                     'modulo_activo' => $this->modulo
                                                     ]);
     }
@@ -67,6 +71,8 @@ class LetrerosController extends Controller
         $conf_tiempo_slide = Settings::where('key', 'tiempo_slide')->first()->value;
         $conf_velocidad_marquee_horizontal = Settings::where('key', 'velocidad_marquee_horizontal')->first()->value;
         $conf_velocidad_marquee_vertical = Settings::where('key', 'velocidad_marquee_vertical')->first()->value;
+        $conf_tiempo_entre_fotos = Settings::where('key', 'tiempo_entre_fotos')->first()->value;
+        $conf_tiempo_refresco_pagina = Settings::where('key', 'tiempo_refresco_pagina')->first()->value;
 
         $titulo = "Letrero Anuncios Propios";
         return view('anuncios.letrero2', [
@@ -77,6 +83,7 @@ class LetrerosController extends Controller
                                                     'velocidad_marquee_horizontal'=>$conf_velocidad_marquee_horizontal,
                                                     'velocidad_marquee_vertical'=>$conf_velocidad_marquee_vertical,
                                                     'destacados'=>$destacados,
+                                                    'tiempo_refresco_pagina'=>$conf_tiempo_refresco_pagina,
                                                     'modulo_activo' => $this->modulo
                                                     ]);
     }

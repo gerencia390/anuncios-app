@@ -22,5 +22,7 @@ class ConfiguracionSeeder extends Seeder
         DB::table('settings')->insert(['key' => "tiempo_slide", 'value' => "5"]);//5 segundos por slide
         DB::table('settings')->insert(['key' => "velocidad_marquee_horizontal", 'value' => "5"]);//
         DB::table('settings')->insert(['key' => "velocidad_marquee_vertical", 'value' => "5"]);//velocidad / 100
+        DB::table('settings')->insert(['key' => "tiempo_entre_fotos", 'value' => "4"]);//velocidad / 100
+        DB::table('settings')->insert(['key' => "tiempo_refresco_pagina", 'value' => "120"]);//minutos
     }
 }

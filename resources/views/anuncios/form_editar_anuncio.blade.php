@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{secure_url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
+								<form id="form-nuevo-producto" action="{{url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
 								  @method("PUT")
 								  @csrf
 								  <section id="seccion-datos-anuncio">
@@ -231,9 +231,9 @@
 												</label>
 												<select autofocus required class="form-control @error('anu_estado') is-invalid @enderror" name="anu_estado" id="anu_estado">
 													<option value="">Seleccione una opción</option>
-													<option value="0" {{ old('anu_estado') == '0' ? 'selected' : '' }}>Guardado</option>
-													<option value="1" {{ old('anu_estado') == '1' ? 'selected' : '' }} selected>Publicado</option>
-													<option value="2" {{ old('anu_estado') == '2' ? 'selected' : '' }}>Finalizado</option>
+													<option value="0" {{ old('anu_estado', $anuncio->anu_estado) == '0' ? 'selected' : '' }}>Guardado</option>
+													<option value="1" {{ old('anu_estado', $anuncio->anu_estado) == '1' ? 'selected' : '' }}>Publicado</option>
+													<option value="2" {{ old('anu_estado', $anuncio->anu_estado) == '2' ? 'selected' : '' }}>Finalizado</option>
 												</select>
 												@error('anu_estado')
 												<div class="invalid-feedback">

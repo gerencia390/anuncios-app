@@ -5,7 +5,7 @@
 
 <div id="container" style="padding:10px;">
                     <div class="text-center header-container">
-                        <img style="width:50%;" src="{{ secure_asset('img/logo-supercasas.png')}}" alt="..." class="">
+                        <img style="width:70%;" src="{{ asset('img/logo-supercasas.png')}}" alt="..." class="">
                     </div>
 
                     <!-- SLIDESHOW ANUNCIOS PROPIOS -->
@@ -14,10 +14,17 @@
                             <div class="slide {{ $index === 0 ? 'active' : '' }}">
                                 <div class="row no-gutters">
                                     <div class="col-5">
-                                        <img src="{{ url($anuncio->anu_imagen_url) }}" style="width: 100%; padding:5px;" alt="">
+                                        <div class="slider-anuncio">
+                                            @foreach(explode('|', $anuncio->anu_imagen_url) as $index => $img)
+                                                @if(trim($img) != '')
+                                                    <img src="{{ $img }}" 
+                                                        class="slide-img {{ $index === 0 ? 'active' : '' }}">
+                                                @endif
+                                            @endforeach
+                                        </div>                                        
                                     </div>
                                     <div class="col-7">
-                                        <h4 class="text-success">{{$anuncio->anu_concepto}}</h4>
+                                        <div class="titulo-slide text-success">{{$anuncio->anu_concepto}}</div>
                                         <div class="descripcion-slide">
                                             {!! $anuncio->anu_descripcion !!}
                                         </div>
@@ -101,6 +108,36 @@ function startMarquee() {
 }
 
 $(function(){
+
+    //refrescar página cada cierto tiempo
+    setTimeout(function() {
+        location.reload();
+    }, {{ $tiempo_refresco_pagina }} * 60 * 1000);    
+
+    //SLIDE DE FOTOS POR ANUNCIO
+    setInterval(() => {
+
+        document.querySelectorAll('.slider-anuncio').forEach(slider => {
+
+            let slides = slider.querySelectorAll('.slide-img');
+
+            if (slides.length <= 1) return;
+
+            let current = Array.from(slides).findIndex(s => s.classList.contains('active'));
+
+            if (current === -1) current = 0;
+
+            let next = (current + 1) % slides.length;
+
+            // quitar actual
+            slides[current].classList.remove('active');
+
+            // activar siguiente
+            slides[next].classList.add('active');
+
+        });
+
+    }, {{ $tiempo_entre_fotos * 1000 }}); // cambia cada 4 segundos    
 
     /*SLIDESHOW*/
     const slides = document.querySelectorAll('.slide');

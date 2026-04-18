@@ -26,7 +26,7 @@
                         @if($anuncios->count() == 0)
                         <div class="alert alert-info">
                             <div class="media">
-                                <img src="{{secure_asset('img/alert-info.png')}}" class="align-self-center mr-3" alt="...">
+                                <img src="{{asset('img/alert-info.png')}}" class="align-self-center mr-3" alt="...">
                                 <div class="media-body">
                                     <h5 class="mt-0">Nota.-</h5>
                                     <p>
@@ -158,7 +158,7 @@
         <div class="modal-body">
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Advertencia.-</h5>
                         <p>
@@ -200,8 +200,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-6">
-                    <div class="col-12 box-detalle-modal text-center">
-                        <img id="img-detalle" src="" style="width: 100%">
+                    <div class="col-12 box-detalle-modal text-center" id="contenedor-imagenes">
                     </div>
                 </div>
                 <div class="col-6">
@@ -274,7 +273,7 @@
             </div>
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Cuidado.-</h5>
                         <p>
@@ -286,7 +285,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-finalizar-anuncio" action="{{secure_url('anuncios_propios')}}" data-simple-action="{{secure_url('anuncios_propios/finalizar')}}" method="post">
+          <form id="form-finalizar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios/finalizar')}}" method="post">
             @method('post')
             @csrf
                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Si, finalizar</button>
@@ -319,7 +318,7 @@
             </div>
             <div class="alert alert-danger">
                 <div class="media">
-                    <img src="{{secure_asset('img/alert-danger.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{asset('img/alert-danger.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Cuidado.-</h5>
                         <p>
@@ -331,7 +330,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
-          <form id="form-eliminar-anuncio" action="{{secure_url('anuncios_propios')}}" data-simple-action="{{secure_url('anuncios_propios')}}" method="post">
+          <form id="form-eliminar-anuncio" action="{{url('anuncios_propios')}}" data-simple-action="{{url('anuncios_propios')}}" method="post">
             @method('delete')
             @csrf
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Si, eliminar</button>
@@ -349,7 +348,7 @@ $(function(){
     * CONFIGURACION DATA TABLES
     -------------------------------------------------------------
     */
-    $('.tabla-datos-anuncios').DataTable({"language":{url: '{{secure_asset('js/datatables-lang-es.json')}}'}, "order": [[ 0, "desc" ]]});
+    $('.tabla-datos-anuncios').DataTable({"language":{url: '{{asset('js/datatables-lang-es.json')}}'}, "order": [[ 0, "desc" ]]});
 
     //Conf popover
     $('[data-toggle="popover"]').popover()
@@ -453,12 +452,40 @@ $(function(){
         $('#txt-precio').html($(this).attr('data-precio'));
         $('#txt-monto').html($(this).attr('data-monto'));
         $('#txt-factura').html($(this).attr('data-factura'));
-        $('#img-detalle').attr("src", $(this).attr('data-imagen_url'));
         var estado = $(this).attr('data-estado');
         if(estado == 0){ $('#txt-estado').html('<span class="badge badge-info">GUARDADO</span>'); }
         if(estado == 1){ $('#txt-estado').html('<span class="badge badge-success">PUBLICADO</span>'); }
         if(estado == 2){ $('#txt-estado').html('<span class="badge badge-primary">FINALIZADO</span>'); }
         if(estado == 3){ $('#txt-estado').html('<span class="badge badge-danger">VENCIDO</span>'); }
+
+        /*RENDERIZAR IMAGENES*/
+        //$('#img-detalle').attr("src", $(this).attr('data-imagen_url'));
+        let imagenes = $(this).attr('data-imagen_url').split('|');
+        // limpiar imágenes vacías
+        imagenes = imagenes.filter(img => img && img.trim() !== '');
+        // validar que exista al menos una imagen
+        if (imagenes.length === 0) {
+            $('#contenedor-imagenes').html('<p>No hay imágenes disponibles</p>');
+            return;
+        }
+        let html = '<div id="slider">';
+        imagenes.forEach(function(img, index) {
+            html += `<img src="${img}" class="slide-img ${index === 0 ? 'active' : ''}">`;
+        });
+        html += '</div>';
+        $('#contenedor-imagenes').html(html);
+        // slide automático
+        let current = 0;
+        let slides = document.querySelectorAll('#slider .slide-img');
+        // evitar error si solo hay 1 imagen
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 3000);
+        }
+
     });
 
 

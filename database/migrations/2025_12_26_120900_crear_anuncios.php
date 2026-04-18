@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->string('anu_concepto');                       //concepto
             $table->text('anu_descripcion')->nullable();        //descripcion
             // Multimedia
-            $table->string('anu_imagen_url')->nullable();       // imagen principal
-            $table->string('anu_video_url')->nullable();        // video opcional
+            $table->text('anu_imagen_url')->nullable();       // imagen principal
+            $table->text('anu_video_url')->nullable();        // video opcional
             // Control
             $table->integer('anu_prioridad')->default(0);
             // Fechas

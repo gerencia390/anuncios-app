@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-anuncio" action="{{secure_url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
+								<form id="form-nuevo-anuncio" action="{{url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
 								  @csrf
 								  <section id="seccion-datos-anuncio">
 									Los campos con <span class="text-danger">*</span> son obligatorios.
@@ -69,17 +69,16 @@
 
 										</div>
 										<div class="col-md-6">
-											<div id="preview-box" class="preview-box d-none">
-												<img id="preview-img" src="" alt="Preview">
-											</div>											
-											<div class="form-group">
+<div id="preview-box" class="d-none">
+    <div id="preview-imgs"></div>
+</div>											<div class="form-group">
 												<label class="label-blue label-block" for="">
 													Imagen del anuncio (max 5MB):
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establecer la imagen del anuncio en formato JPG"></i>
 												</label>
 												<input type="file"
-													name="anu_imagen_url"
+													name="anu_imagen_url[]" multiple
 													id="anu_imagen_url"
 													class="form-control"
 													accept="image/png, image/jpeg"
@@ -242,32 +241,35 @@ $(function(){
 
 	//imagen para el server
 	$('#anu_imagen_url').on('change', function () {
-		const file = this.files[0];
-
-		if (!file) return;
-
-		if (!file.type.startsWith('image/')) {
-			alert('Seleccione una imagen válida');
-			this.value = '';
-			return;
+		const files = this.files;
+		// limpiar previews anteriores
+		$('#preview-imgs').html('');
+		if (!files || files.length === 0) return;
+		const maxSize = 5 * 1024 * 1024; // 5MB
+		// recorrer todos los archivos
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			// validar tipo
+			if (!file.type.startsWith('image/')) {
+				alert('Uno de los archivos no es una imagen válida');
+				continue;
+			}
+			// validar tamaño
+			if (file.size > maxSize) {
+				alert('Una imagen supera los 5 MB');
+				continue;
+			}
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				$('#preview-imgs').append(`
+					<img src="${e.target.result}" 
+						style="width:100px; margin:5px; border-radius:5px;">
+				`);
+			};
+			reader.readAsDataURL(file);
 		}
-		//revisa el tamaño del archivo
-        if (!file) return;
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-            alert('El archivo no debe superar los 5 MB');
-            this.value = ''; // limpia el input
-        }
-
-
-		const reader = new FileReader();
-
-		reader.onload = function (e) {
-			$('#preview-img').attr('src', e.target.result);
-			$('#preview-box').removeClass('d-none');
-		};
-
-		reader.readAsDataURL(file);
+		// mostrar contenedor si hay al menos una imagen válida
+		$('#preview-box').removeClass('d-none');
 	});
 
 

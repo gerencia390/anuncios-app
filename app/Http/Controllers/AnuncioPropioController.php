@@ -86,47 +86,70 @@ class AnuncioPropioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
-        //verificar si esta logueado el usuario
-        if(!Auth::check()){return redirect('/');}
-        //validamos
+        // verificar si esta logueado el usuario
+        if(!Auth::check()){
+            return redirect('/');
+        }
+
+        // VALIDACIÓN PARA MÚLTIPLES IMÁGENES
         $request->validate([
-            'anu_imagen_url' => 'required|image|mimes:jpg,jpeg,png|max:5120'
-        ]);        
+            'anu_imagen_url.*' => 'required|image|mimes:jpg,jpeg,png|max:5120'
+        ]);
 
-        //cargamos la imagen al storage
-        //en supabase tenemos hasta 1GB
-        $archivo = $request->file('anu_imagen_url');
+        $rutas = [];
 
-        $nombre = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
+        // SUBIR MÚLTIPLES ARCHIVOS
+        if ($request->hasFile('anu_imagen_url')) {
 
-        $ruta = Storage::disk('supabase')
-            ->putFileAs('propios', $archivo, $nombre, 'public');
+            foreach ($request->file('anu_imagen_url') as $archivo) {
 
-        // $img_url = Storage::disk('supabase')->url($ruta);        
-        $img_url = 'https://'.env('SUPABASE_PROJECT_ID').'.supabase.co/storage/v1/object/public/archivos-anuncios/'.$ruta;
+                $nombre = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
+
+                $ruta = Storage::disk('supabase')
+                    ->putFileAs('propios', $archivo, $nombre, 'public');
+
+                $img_url = 'https://' . env('SUPABASE_PROJECT_ID') . '.supabase.co/storage/v1/object/public/archivos-anuncios/' . $ruta;
+
+                $rutas[] = $img_url;
+            }
+        }
+
+        // CONVERTIR ARRAY A STRING CON |
+        $img_urls_string = implode('|', $rutas);
 
         $ajustes = Settings::all();
-        //guardar el nuevo anuncio
+
+        // guardar el nuevo anuncio
         $anuncio = new Anuncio();
         $anuncio->usu_id = Auth::user()->usu_id;
-        $anuncio->tip_id = 3;//propios
-        $anuncio->cat_id = 1;//venta propiedades
+        $anuncio->tip_id = 3; // propios
+        $anuncio->cat_id = 1; // venta propiedades
         $anuncio->anu_codigo_anuncio = $request->input('anu_codigo_anuncio');
         $anuncio->anu_concepto = $request->input('anu_concepto');
         $anuncio->anu_descripcion = $request->input('anu_descripcion');
         $anuncio->anu_fecha_inicio = $request->input('anu_fecha_inicio');
-        //fecha de vencimiento calculado por sistema mas la cantidad de meses de ajustes con key = mese_plazo 
+
+        // fecha de vencimiento
         $meses_plazo = (int)$ajustes->where('key', 'meses_contrato')->first()->value;
-        $anuncio->anu_fecha_vencimiento = date('Y-m-d', strtotime($request->input('anu_fecha_inicio')." + ".$meses_plazo." months"));
+
+        $anuncio->anu_fecha_vencimiento = date(
+            'Y-m-d',
+            strtotime($request->input('anu_fecha_inicio') . " + " . $meses_plazo . " months")
+        );
+
         $anuncio->anu_cliente = "SUPERCASAS";
         $anuncio->anu_nit_ci = "";
         $anuncio->anu_telefonos_contacto = $request->input('anu_telefonos_contacto');
         $anuncio->anu_ubicacion = "";
-        $anuncio->anu_imagen_url = $img_url;
+
+        // AQUÍ GUARDAS TODAS LAS IMÁGENES
+        $anuncio->anu_imagen_url = $img_urls_string;
+
         $anuncio->anu_estado = $request->input('anu_estado');
         $anuncio->save();
+
         return redirect('/anuncios_propios')->with('success', 'Anuncio creado correctamente');
     }
 
@@ -167,47 +190,94 @@ class AnuncioPropioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //verificar si esta logueado el usuario
-        if(!Auth::check()){return redirect('/');}
-        //validamos
+        if(!Auth::check()){
+            return redirect('/');
+        }
+
+        // ✅ validación múltiple
         $validator = Validator::make($request->all(), [
-            'anu_imagen_url' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'anu_imagen_url.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $ajustes = Settings::all();
+
         $id = Crypt::decryptString($id);
         $anuncio = Anuncio::where('anu_id', $id)->first();
+
+        // 🔥 SOLO SI SUBE NUEVAS IMÁGENES
         if ($request->hasFile('anu_imagen_url')) {
-            //cargamos la imagen al storage
-            //en supabase tenemos hasta 1GB
-            $archivo = $request->file('anu_imagen_url');
-            $nombre = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
-            $ruta = Storage::disk('supabase')
-                ->putFileAs('propios', $archivo, $nombre, 'public');
-            // $img_url = Storage::disk('supabase')->url($ruta);        
-            $img_url = 'https://'.env('SUPABASE_PROJECT_ID').'.supabase.co/storage/v1/object/public/archivos-anuncios/'.$ruta;
-            //asignamos la nueva url
-            $anuncio->anu_imagen_url = $img_url;
+
+            // =============================
+            // 🧹 1. ELIMINAR IMÁGENES ANTIGUAS
+            // =============================
+            if ($anuncio->anu_imagen_url) {
+
+                $imagenesAntiguas = explode('|', $anuncio->anu_imagen_url);
+
+                foreach ($imagenesAntiguas as $img) {
+
+                    if (trim($img) === '') continue;
+
+                    // extraer ruta relativa desde la URL
+                    $ruta = str_replace(
+                        'https://' . env('SUPABASE_PROJECT_ID') . '.supabase.co/storage/v1/object/public/archivos-anuncios/',
+                        '',
+                        $img
+                    );
+
+                    Storage::disk('supabase')->delete($ruta);
+                }
+            }
+
+            // =============================
+            // 📤 2. SUBIR NUEVAS IMÁGENES
+            // =============================
+            $nuevasImagenes = [];
+
+            foreach ($request->file('anu_imagen_url') as $archivo) {
+
+                $nombre = Str::uuid() . '.' . $archivo->getClientOriginalExtension();
+
+                $ruta = Storage::disk('supabase')
+                    ->putFileAs('propios', $archivo, $nombre, 'public');
+
+                $img_url = 'https://' . env('SUPABASE_PROJECT_ID') . '.supabase.co/storage/v1/object/public/archivos-anuncios/' . $ruta;
+
+                $nuevasImagenes[] = $img_url;
+            }
+
+            // 🔥 REEMPLAZAR completamente
+            $anuncio->anu_imagen_url = implode('|', $nuevasImagenes);
         }
+
+        // =============================
+        // 🧾 RESTO DE CAMPOS
+        // =============================
         $anuncio->usu_id = Auth::user()->usu_id;
-        $anuncio->tip_id = 3;//propios
-        $anuncio->cat_id = 1;//venta propiedades
+        $anuncio->tip_id = 3;
+        $anuncio->cat_id = 1;
         $anuncio->anu_codigo_anuncio = $request->input('anu_codigo_anuncio');
         $anuncio->anu_concepto = $request->input('anu_concepto');
         $anuncio->anu_descripcion = $request->input('anu_descripcion');
         $anuncio->anu_fecha_inicio = $request->input('anu_fecha_inicio');
-        //fecha de vencimiento calculado por sistema mas la cantidad de meses de ajustes con key = mese_plazo 
+
         $meses_plazo = (int)$ajustes->where('key', 'meses_contrato')->first()->value;
-        $anuncio->anu_fecha_vencimiento = date('Y-m-d', strtotime($request->input('anu_fecha_inicio')." + ".$meses_plazo." months"));
+
+        $anuncio->anu_fecha_vencimiento = date(
+            'Y-m-d',
+            strtotime($request->input('anu_fecha_inicio') . " + " . $meses_plazo . " months")
+        );
+
         $anuncio->anu_cliente = "SUPERCASAS";
         $anuncio->anu_nit_ci = "";
         $anuncio->anu_telefonos_contacto = $request->input('anu_telefonos_contacto');
         $anuncio->anu_ubicacion = "";
         $anuncio->anu_estado = $request->input('anu_estado');
+
         $anuncio->save();
+
         return redirect('/anuncios_propios')->with('success', 'Anuncio actualizado correctamente');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -215,30 +285,52 @@ class AnuncioPropioController extends Controller
     public function destroy($id)
     {
         try {
-            //verificar si esta logueado el usuario
-            if(!Auth::check()){return redirect('/');}
+            // verificar si esta logueado el usuario
+            if(!Auth::check()){
+                return redirect('/');
+            }
 
             $id = Crypt::decryptString($id);
 
             $anuncio = Anuncio::where('anu_id', $id)->first();
 
-            $url = $anuncio->anu_imagen;
+            // 🔥 VALIDAR QUE EXISTA
+            if (!$anuncio) {
+                return abort(404);
+            }
 
-            // quitar todo antes del bucket
-            $ruta = str_replace(
-                'https://' . env('SUPABASE_PROJECT_ID') . '.supabase.co/storage/v1/object/public/archivos-anuncios/',
-                '',
-                $url
-            );
+            // =============================
+            // 🧹 ELIMINAR TODAS LAS IMÁGENES
+            // =============================
+            if ($anuncio->anu_imagen_url) {
 
-            Storage::disk('supabase')->delete($ruta);
+                $imagenes = explode('|', $anuncio->anu_imagen_url);
 
+                foreach ($imagenes as $img) {
+
+                    if (trim($img) === '') continue;
+
+                    // 🔹 forma robusta de obtener la ruta
+                    $parts = explode('/archivos-anuncios/', $img);
+
+                    if (isset($parts[1])) {
+                        $ruta = $parts[1];
+                        Storage::disk('supabase')->delete($ruta);
+                    }
+                }
+            }
+
+            // =============================
+            // 🗑️ ELIMINAR REGISTRO
+            // =============================
             $anuncio->delete();
+
             return redirect('anuncios_propios');
+
         } catch (\Throwable $th) {
             return abort(404);
         }
-    }
+    }    
 
     //finalizar anuncio, es decir, cambiar estado
     public function finalizar($anu_id){

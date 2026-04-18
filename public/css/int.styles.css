@@ -482,3 +482,18 @@ canvas{
     max-height: 200px;
     object-fit: contain;
 }
+
+/* ESTILOS PARA SLIDER DE IMÁGENES EN DETALLE DE ANUNCIO */
+.slide-img {
+    display: none;
+    width: 100%;
+}
+
+.slide-img.active {
+    display: block;
+}
+/* vista previa de imagenes del formulario*/
+#preview-imgs {
+    display: flex;
+    flex-wrap: wrap;
+}

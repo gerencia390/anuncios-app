@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-anuncio" action="{{secure_url('anuncios_propios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST" enctype="multipart/form-data">
+								<form id="form-nuevo-anuncio" action="{{url('anuncios_propios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST" enctype="multipart/form-data">
 								  @csrf
 								  @method('PUT')
 								  <section id="seccion-datos-anuncio">
@@ -62,9 +62,23 @@
 
 										</div>
 										<div class="col-md-6">
+
 											<div id="preview-box" class="preview-box">
-												<img id="preview-img" src="{{ url($anuncio->anu_imagen_url) }}" alt="Preview">
-											</div>											
+												<div id="preview-imgs">
+
+													@if($anuncio->anu_imagen_url)
+														@foreach(explode('|', $anuncio->anu_imagen_url) as $img)
+															@if(trim($img) != '')
+																<img src="{{ $img }}" style="width:100px; margin:5px; border-radius:5px; border-radius:5px; border:3px solid #dd3300;">
+															@endif
+														@endforeach
+													@endif
+
+												</div>
+											</div>
+											<small>Las imagenes antiguas (marcadas en rojo) serán reemplazadas por las marcadas en verde.</small>
+
+											
 											<div class="form-group">
 												<label class="label-blue label-block" for="">
 													Imagen del anuncio (max 5MB):
@@ -72,7 +86,7 @@
 													<i class="fa fa-question-circle float-right" title="Establecer la imagen del anuncio en formato JPG"></i>
 												</label>
 												<input type="file"
-													name="anu_imagen_url"
+													name="anu_imagen_url[]" multiple
 													id="anu_imagen_url"
 													class="form-control"
 													accept="image/png, image/jpeg"
@@ -127,7 +141,7 @@
 												<select required class="form-control @error('anu_estado') is-invalid @enderror" name="anu_estado" id="anu_estado">
 													<option value="">Seleccione una opción</option>
 													<option value="0" {{ old('anu_estado', $anuncio->anu_estado) == '0' ? 'selected' : '' }}>Guardado</option>
-													<option value="1" {{ old('anu_estado', $anuncio->anu_estado) == '1' ? 'selected' : '' }} selected>Publicado</option>
+													<option value="1" {{ old('anu_estado', $anuncio->anu_estado) == '1' ? 'selected' : '' }}>Publicado</option>
 													<option value="2" {{ old('anu_estado', $anuncio->anu_estado) == '2' ? 'selected' : '' }}>Finalizado</option>
 												</select>
 												@error('anu_estado')
@@ -234,34 +248,45 @@ $(function(){
 
 	//imagen para el server
 	$('#anu_imagen_url').on('change', function () {
-		const file = this.files[0];
 
-		if (!file) return;
+		const files = this.files;
 
-		if (!file.type.startsWith('image/')) {
-			alert('Seleccione una imagen válida');
-			this.value = '';
-			return;
+		if (!files || files.length === 0) return;
+
+		const maxSize = 5 * 1024 * 1024; // 5MB
+
+		// ⚠️ opcional: limpiar previews anteriores
+		// $('#preview-imgs').html('');
+
+		for (let i = 0; i < files.length; i++) {
+
+			const file = files[i];
+
+			// validar tipo
+			if (!file.type.startsWith('image/')) {
+				alert('Uno de los archivos no es una imagen válida');
+				continue;
+			}
+
+			// validar tamaño
+			if (file.size > maxSize) {
+				alert('Una imagen supera los 5 MB');
+				continue;
+			}
+
+			const reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#preview-imgs').append(`
+					<img src="${e.target.result}" 
+						style="width:100px; margin:5px; border-radius:5px; border:3px solid #28a745;">
+				`);
+			};
+
+			reader.readAsDataURL(file);
 		}
-		//revisa el tamaño del archivo
-        if (!file) return;
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSize) {
-            alert('El archivo no debe superar los 5 MB');
-            this.value = ''; // limpia el input
-        }
 
-
-		const reader = new FileReader();
-
-		reader.onload = function (e) {
-			$('#preview-img').attr('src', e.target.result);
-			$('#preview-box').removeClass('d-none');
-		};
-
-		reader.readAsDataURL(file);
 	});
-
 
 	//preloader cargado imagen
 	$('#form-nuevo-anuncio').on('submit', function () {
