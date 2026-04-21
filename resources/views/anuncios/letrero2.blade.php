@@ -64,7 +64,9 @@
                                                 {{ $anuncio->anu_concepto }}
                                             </div>
                                             <div class="descripcion-anuncio-marquee">
-                                                {{ $anuncio->anu_descripcion }}
+                                                {{ $anuncio->anu_descripcion }} - {{ $anuncio->anu_ubicacion }}
+                                                <strong>PRECIO/SUELDO:</strong>
+                                                 {{ $anuncio->anu_precio }}
                                             </div>
                                             <div class="ref-anuncio-marquee">
                                                 Ref.: {{ $anuncio->anu_telefonos_contacto }}
