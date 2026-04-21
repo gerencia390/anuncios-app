@@ -26,9 +26,9 @@
                                                 {{ $item->anu_concepto }}
                                             </div>
                                             <div class="descripcion-anuncio-marquee">
-                                                {{ $anuncio->anu_descripcion }} - {{ $anuncio->anu_ubicacion }}
+                                                {{ $item->anu_descripcion }} - {{ $item->anu_ubicacion }}
                                                 <strong>PRECIO/SUELDO:</strong>
-                                                 {{ $anuncio->anu_precio_sueldo }}
+                                                 {{ $item->anu_precio_sueldo }}
                                             </div>
                                             <div class="ref-anuncio-marquee">
                                                 Ref.: {{ $item->anu_telefonos_contacto }}
