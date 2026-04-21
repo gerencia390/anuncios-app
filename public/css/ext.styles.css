@@ -147,7 +147,7 @@ CONF PARA ANUNCIOS
 .descripcion-anuncio-marquee {
     font-size: 10px;
     line-height: 1.1;
-    max-height: 5.8em;  /* 2 líneas */
+    max-height: 6.6em;  /* 5 líneas */
     overflow: hidden;
     color: #333;
 }
