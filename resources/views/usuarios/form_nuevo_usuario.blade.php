@@ -13,7 +13,7 @@
 				</h3>
 			</div>
             <div class="col-6">
-				<a href="{{url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+				<a href="{{secure_url('usuarios')}}" title="Volver a lista de usuarios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
 			</div>
 		</div>
 	</div>		
@@ -26,7 +26,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-usuario" action="{{url('usuarios')}}" method="POST">
+								<form id="form-nuevo-usuario" action="{{secure_url('usuarios')}}" method="POST">
 								  @csrf
 								  <section id="seccion-datos-cuenta-usuario">
 									<h4 class="card-title"><strong><span class="text-primary">

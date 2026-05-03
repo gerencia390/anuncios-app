@@ -13,7 +13,7 @@
 				</h3>
 			</div>
             <div class="col-6">
-					<a href="{{url('dashboard')}}" title="Ir a panel general" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> IR A PANEL GENERAL</a>
+					<a href="{{secure_url('dashboard')}}" title="Ir a panel general" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> IR A PANEL GENERAL</a>
 					<a href="#" id="btn-editar-configuracion" title="Habilitar modificación de valores de configuración" data-placement="bottom" class="btn btn-sm btn-primary float-right" style="margin-left:10px;"><i class="fa fa-edit"></i> EDITAR VALORES</a>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-editar-configuracion" action="{{url('configuracion/'.Crypt::encryptString(Str::random(10)))}}" method="POST">
+								<form id="form-editar-configuracion" action="{{secure_url('configuracion/'.Crypt::encryptString(Str::random(10)))}}" method="POST">
 									@method('PUT')
 									@csrf
 								  <section id="seccion-datos-cuenta-usuario">
@@ -193,7 +193,7 @@
         <div class="modal-body">
             <div class="alert alert-warning">
                 <div class="media">
-                    <img src="{{asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
+                    <img src="{{secure_asset('img/alert-warning.png')}}" class="align-self-center mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0">Atención.-</h5>
                         <p>

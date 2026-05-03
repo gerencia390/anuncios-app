@@ -13,7 +13,7 @@
 				</h3>
 			</div>
             <div class="col-6">
-					<a href="{{url('anuncios_propios')}}" title="Volver a lista de anuncios propios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
+					<a href="{{secure_url('anuncios_propios')}}" title="Volver a lista de anuncios propios" data-placement="bottom" class="btn btn-sm btn-secondary float-right" style="margin-left:10px;"><i class="fa fa-angle-double-left"></i> ATRÁS</a>
 			</div>
 		</div>
 	</div>			
@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-anuncio" action="{{url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
+								<form id="form-nuevo-anuncio" action="{{secure_url('anuncios_propios')}}" method="POST" enctype="multipart/form-data">
 								  @csrf
 								  <section id="seccion-datos-anuncio">
 									Los campos con <span class="text-danger">*</span> son obligatorios.
@@ -310,12 +310,12 @@ $(function(){
             },
             success: function (response) {
                 if (response.status == 1) {
-                    $('#msg-codigo').html('<small class="text-danger">⚠️ El código ya existe</small>');
+                    $('#msg-codigo').html('<small class="text-danger"> El código ya existe</small>');
                     setTimeout(function () {
                         $('#anu_codigo_anuncio').val('');
                     }, 2000); 					
                 } else {
-                    $('#msg-codigo').html('<small class="text-success">✔ Código disponible</small>');
+                    $('#msg-codigo').html('<small class="text-success"> Código disponible</small>');
                 }
             },
             error: function () {
