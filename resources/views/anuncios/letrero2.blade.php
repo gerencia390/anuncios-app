@@ -5,7 +5,7 @@
 
 <div id="container" style="padding:10px;">
              <div class="text-center header-container">
-                 <img style="width:70%;" src="{{ secure_asset('img/logo-supercasas.png')}}" alt="..." class="">
+                 <img style="width:70%;" src="{{ asset('img/logo-supercasas.png')}}" alt="..." class="">
              </div>
             <h4 class="subt-destacados">ANUNCIOS DESTACADOS</h4>
                     <!-- Marquee horizontal para destacados -->
@@ -49,10 +49,10 @@
             <div id="marquee-wrapper">
                 <div id="marquee-content">
 
-                    @foreach($clasificados->chunk(4) as $fila)
+                    @foreach($clasificados->chunk(3) as $fila)
                         <div class="marquee-row row no-gutters">
                             @foreach($fila as $anuncio)
-                                <div class="col-3 marquee-item">
+                                <div class="col-4 marquee-item">
                                     <div class="card">
                                         <div class="card-body p-1">
                                             <div class="codigo-anuncio">

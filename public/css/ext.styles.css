@@ -137,7 +137,7 @@ CONF PARA ANUNCIOS
 }
 
 .titulo-anuncio-marquee {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: bold;
     line-height: 1.1;
     text-transform: uppercase;
@@ -145,9 +145,9 @@ CONF PARA ANUNCIOS
 }
 
 .descripcion-anuncio-marquee {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.1;
-    max-height: 6.6em;  /* 5 líneas */
+    max-height: 6.6em;  /* 6 líneas */
     overflow: hidden;
     color: #333;
 }
@@ -234,11 +234,6 @@ MARQUEE DESTACADOS
     text-align: center;
     line-height: 17px;
 }
-
-.titulo-anuncio-marquee, {
-    font-size: 12px;
-}
-
 
 .subt-destacados{
     background-color: #5FAE41;

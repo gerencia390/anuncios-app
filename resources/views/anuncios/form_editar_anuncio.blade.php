@@ -25,7 +25,7 @@
 					<div class="row no-gutters">
 						<div class="col-md-12">
 							<div class="card-body">
-								<form id="form-nuevo-producto" action="{{secure_url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
+								<form id="form-nuevo-producto" action="{{url('anuncios/'.Crypt::encryptString($anuncio->anu_id))}}" method="POST">
 								  @method("PUT")
 								  @csrf
 								  <section id="seccion-datos-anuncio">
@@ -146,7 +146,10 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece el concepto del anuncio"></i>
 												</label>
-												<input required type="text" value="{{old('anu_concepto', $anuncio->anu_concepto)}}" class="form-control @error('anu_concepto') is-invalid @enderror" name="anu_concepto" id="anu_concepto" placeholder="Concepto del anuncio">
+												<input required type="text" maxlength="{{ $ajustes->where('key', 'max_letras_concepto')->first()->value }}"  value="{{old('anu_concepto', $anuncio->anu_concepto)}}" class="form-control @error('anu_concepto') is-invalid @enderror" name="anu_concepto" id="anu_concepto" placeholder="Concepto del anuncio">
+												<small class="text-muted">
+													<span id="contador-concepto">0</span>/{{ $ajustes->where('key', 'max_letras_concepto')->first()->value }} caracteres
+												</small>												
 												@error('anu_concepto')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -161,8 +164,10 @@
 													<span class="text-danger">*</span>
 													<i class="fa fa-question-circle float-right" title="Establece la descripción del anuncio"></i>
 												</label>
-												<textarea required type="text" value="" class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Descripción del anuncio">{{old('anu_descripcion', $anuncio->anu_descripcion)}}													
-												</textarea>
+												<textarea required type="text" value="" maxlength="{{ $ajustes->where('key', 'max_letras_descripcion')->first()->value }}" class="form-control @error('anu_descripcion') is-invalid @enderror" name="anu_descripcion" id="anu_descripcion" placeholder="Descripción del anuncio">{{old('anu_descripcion', $anuncio->anu_descripcion)}}</textarea>
+												<small class="text-muted">
+													<span id="contador">0</span>/{{ $ajustes->where('key', 'max_letras_descripcion')->first()->value }} caracteres
+												</small>												
 												@error('anu_descripcion')
 												<div class="invalid-feedback">
 													{{$message}}
@@ -332,6 +337,23 @@ $(function(){
 		let nuevoCodigo = partes.join('-');
 
 		input.val(nuevoCodigo);
+	});
+
+
+	//control contador letras concepto anuncio
+	$('#anu_concepto').on('input', function () {
+		let max = this.maxLength;
+		let actual = this.value.length;
+
+		$('#contador-concepto').text(actual);
+	});
+
+	//control contador letras descripcion anuncio
+	$('#anu_descripcion').on('input', function () {
+		let max = this.maxLength;
+		let actual = this.value.length;
+
+		$('#contador').text(actual);
 	});
 
 
