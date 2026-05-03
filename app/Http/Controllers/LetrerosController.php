@@ -65,7 +65,11 @@ class LetrerosController extends Controller
             ->where('anu_estado', 1)
             ->whereIn('cat_id', [4, 5])
             ->get();
-        $destacados = Anuncio::where('tip_id', '1')->where('anu_estado', 1)->orderBy('anu_id', 'desc')->get();
+        $destacados = Anuncio::whereIn('tip_id', [1, 2])
+            ->where('anu_estado', 1)
+            ->orderBy('tip_id', 'desc')   // Primero tip_id = 2, luego 1
+            ->orderBy('anu_id', 'desc')   // Dentro de cada grupo, descendente
+            ->get();
 
         //ajustes
         $conf_tiempo_slide = Settings::where('key', 'tiempo_slide')->first()->value;
